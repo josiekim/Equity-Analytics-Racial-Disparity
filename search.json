@@ -91,18 +91,39 @@
     "text": "This comes from the file about.qmd.\nThis is a website for the final project for MA[46]15 Data Science with R by Team TEAMNAME. The members of this team are below."
   },
   {
-    "objectID": "about.html#chang-liu",
-    "href": "about.html#chang-liu",
+    "objectID": "about.html#josephine-kim",
+    "href": "about.html#josephine-kim",
     "title": "About",
-    "section": "Chang Liu",
-    "text": "Chang Liu\nLuis is a Ph.D. student in Stats and is the Teaching Fellow for the course."
+    "section": "Josephine Kim",
+    "text": "Josephine Kim\nJosephine is a junior studying Data Science at Boston University."
   },
   {
-    "objectID": "about.html#dan-sussman",
-    "href": "about.html#dan-sussman",
+    "objectID": "about.html#phillip-kim",
+    "href": "about.html#phillip-kim",
     "title": "About",
-    "section": "Dan Sussman",
-    "text": "Dan Sussman\nDan is a professor in the Math/Stat department and is the instructor for the course.\n\n\nAbout this Template.\nThis is based off of the standard Quarto website template from RStudio (2023.09.0 Build 463)."
+    "section": "Phillip Kim",
+    "text": "Phillip Kim\nPhillip is a senior at Boston University majoring in Data Science."
+  },
+  {
+    "objectID": "about.html#zhisheng-yang",
+    "href": "about.html#zhisheng-yang",
+    "title": "About",
+    "section": "Zhisheng Yang",
+    "text": "Zhisheng Yang\nZhisheng is a senior studying Economics and Mathematics at Boston University."
+  },
+  {
+    "objectID": "about.html#kajsa-kedefors",
+    "href": "about.html#kajsa-kedefors",
+    "title": "About",
+    "section": "Kajsa Kedefors",
+    "text": "Kajsa Kedefors\nKajsa is a senior at Boston University pursuing a joint major in philosophy and psychology, and an independent major in social science and public policy. She minors in journalism."
+  },
+  {
+    "objectID": "about.html#jiahua-chang",
+    "href": "about.html#jiahua-chang",
+    "title": "About",
+    "section": "Jiahua Chang",
+    "text": "Jiahua Chang\nJiahua (Richard) is a senior at Boston University majoring in Math and Economics.\n\n\nAbout this Template.\nThis is based off of the standard Quarto website template from RStudio (2023.09.0 Build 463)."
   },
   {
     "objectID": "big_picture.html",
