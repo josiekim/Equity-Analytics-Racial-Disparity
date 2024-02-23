@@ -24,18 +24,23 @@ The members of this team are below.
 
 ## Josephine Kim
 
-Josephine is a junior studying data science at Boston University.\
+Josephine is a junior studying Data Science at Boston University.
 
 ## Phillip Kim
 
+Phillip is a senior at Boston University majoring in Data Science.
 
 ## Zhisheng Yang
 
+Zhisheng is a senior studying Economics and Mathematics at Boston University.
 
 ## Kajsa Kedefors
 
+Kajsa is a senior at Boston University pursuing a joint major in philosophy and psychology, and an independent major in social science and public policy. She minors in journalism.
 
 ## Jiahua Chang
+
+Jiahua (Richard) is a senior at Boston University majoring in Math and Economics. 
 
 <!-- Please leave in the information below -->
 
