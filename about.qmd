@@ -12,7 +12,7 @@ about:
     #   href: https://linkedin.com
     - icon: github
       text: Github
-      href: https://github.com/sussmanbu/
+      href: https://github.com/sussmanbu/final-project-team12
 
 ---
 
@@ -22,13 +22,20 @@ This comes from the file `about.qmd`.
 This is a website for the final project for MA[46]15 Data Science with R by Team TEAMNAME.
 The members of this team are below.
 
-## Chang Liu
+## Josephine Kim
 
-Luis is a Ph.D. student in Stats and is the Teaching Fellow for the course.
+Josephine is a junior studying data science at Boston University.\
 
-## Dan Sussman
+## Phillip Kim
 
-Dan is a professor in the Math/Stat department and is the instructor for the course.
+
+## Zhisheng Yang
+
+
+## Kajsa Kedefors
+
+
+## Jiahua Chang
 
 <!-- Please leave in the information below -->
 
