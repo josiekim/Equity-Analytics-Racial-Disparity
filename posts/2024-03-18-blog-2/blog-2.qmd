@@ -9,14 +9,32 @@ draft: FALSE
 ---
 
 #Data Background
-Where does the data come from? Who collected it? Why was it collected? Are you able to find the data from the original source?
-
-Are there any issues you can see with how the data was collected? What is the sample population? Are there reasons to think the sample is biased in some way?
-How is this data used? Has there been other research on the same data? Is this data being used for some policy decisions? What questions have others ask about this data?
+The Child Opportunity Index 2.0 (COI 2.0) is a tool developed by researchers at Brandeis University. The data for COI 2.0 is collected from various state and federal sources, combining information on 29 indicators across three domains: education, health and environment, and social and economic. This meticulous data collection and analysis process is aimed at providing a comprehensive picture of the conditions affecting children's healthy development across the United States. The COI 2.0 builds on the first version of the Index, created in 2014, and was updated and improved, launching on January 22, 2020. It's designed to capture a wide range of approximately 72,000 neighborhood conditions like the quality of schools, availability of green spaces, air pollution levels, and the number of adults with high-skill jobs, which are vital for children's health and development. This tool ranks every U.S. neighborhood and metro area by assigning a Child Opportunity Score from 1 to 100, based on its percentile in the national child opportunity distribution.
+ 
+A key goal of the COI 2.0 is to illuminate inequities in neighborhood opportunity within the 100 largest metros in the U.S., and indeed, its first analysis revealed significant racial inequities in neighborhood conditions, which can profoundly impact the health, education, economic prospects, and life expectancy of children. For instance, it found that a majority of black children in Cleveland grow up in very-low and low-opportunity neighborhoods, illustrating a stark pattern of inequity that is replicated across many cities in the nation. The COI 2.0 has been used by researchers, city planners, community leaders, and policymakers to identify current inequities and to create strategies for addressing these disparities. For example, Albany, N.Y. utilized the Index to develop a capital improvement plan to increase access to parks and playgrounds in neglected neighborhoods predominantly inhabited by black children. Similarly, the City of Chicago incorporated the COI into its five-year strategic health plan, Healthy Chicago 2.0, to address child health inequities across the city's neighborhoods.
 
 #Data Loading and Cleaning
-The "Child Opportunity Levels, Scores and averaged z-scores for the overall index and three domains" data set is 33mb. For this reason, we did not need to start with a subset of the data. We decided to start the cleaning process by getting rid of the "c5_ED_met", "c5_HE_met", "c5_SE_met", "c5_COI_met", "r_ED_met", "r_HE_met", "r_SE_met", "r_COI_met". This is because the majority of values in these columns were left blank. Column "in100" also contains blanks. But after looking at the provided Data Dictionary, we saw that the blanks in this columns are assigned a value and represent whether cencus tract is located outside a metro or micro-politan area.
+The "Child Opportunity Levels, Scores and averaged z-scores for the overall index and three domains" data set is 33mb. For this reason, we did not need to start with a subset of the data. We decided to start the cleaning process by getting rid of the "c5_ED_met", "c5_HE_met", "c5_SE_met", "c5_COI_met", "r_ED_met", "r_HE_met", "r_SE_met", "r_COI_met". This is because the majority of values in these columns were left blank. Column "in100" also contains blanks. But after looking at the provided Data Dictionary, we saw that the blanks in this columns are assigned a value and represent whether census tract is located outside a metro or micropolitan area.
 
-If you are working with a large data set, you would need to start with a subset of the data. How did you choose this? Are you starting by removing missing values or focusing on columns with less missing data.
+We decided to plot column z_SE_nat (the weighted average of social and economic domain component) since by summarizing the z_SE_nat, z_ED_nat, z_HE_nat, we saw that z_SE_nat had an abnormal range. The other two columns have a range less than 1, whereas z_SE_nat has a range greater than 1. Upon visualizing z_SE_nat, we also saw that there are a many outliers in the data. While most of the points lie within -1 to 1, there are many that lie outside of that pattern. We will be looking into the relationship between z_SE_nat and countyfips to see if there is any reasoning for the outliers, based on location. 
+```{r}
+index <- readRDS('scripts/cleaned_index_dataset.rds')
+index
 
-Work on these first steps of data cleaning. Note, you can always adjust your data cleaning process later. Also, recall that an important part of cleaning is doing some basic exploratory data analysis to look for things like unusual values, unusually frequent values, unusually infrequent values, relationships that you expect to be in the data, etc. In your blog post, include one plot or table to show that you are looking into these potential issues.
+summary(index$z_SE_nat)
+summary(index$z_ED_nat)
+summary(index$z_HE_nat)
+
+suppressPackageStartupMessages(library(tidyverse))
+
+index %>%
+  ggplot(aes(x = countyfips, y = z_SE_nat)) + 
+  geom_point() +
+  labs(
+    title = "County and Weighted Average of Social and Economic Domain Component",
+    x = "County",
+    y = "Weighted Average of Social and Economic Domain Component"
+  ) +
+  theme_minimal()
+```
+
