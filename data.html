@@ -240,14 +240,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-&gt; loan_data &lt;- read_csv(here::here("dataset", "loan_refusal.csv"))</code></pre>
+&gt; loan_data &lt;- read_csv(here::here("scripts", "index/index.csv"))</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Rows: 20 Columns: 5
+<pre><code>Rows: 144408 Columns: 27
 ── Column specification ────────────────────────────────────────────────────────
 Delimiter: ","
-chr (1): bank
-dbl (4): min, white, himin, hiwhite
+chr (12): geoid, countyfips, statefips, stateusps, c5_ED_nat, c5_HE_nat, c5_...
+dbl (15): year, in100, pop, z_ED_nat, z_HE_nat, z_SE_nat, z_COI_nat, r_ED_na...
 
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
@@ -256,10 +256,29 @@ dbl (4): min, white, himin, hiwhite
 <pre><code>
 &gt; loan_data_clean &lt;- loan_data
 
-&gt; write_csv(loan_data_clean, file = here::here("dataset", 
-+     "loan_refusal_clean.csv"))
+&gt; saveRDS(loan_data_clean, file = here::here("scripts", 
++     "cleaned_index_dataset.rds"))
 
-&gt; save(loan_data_clean, file = here::here("dataset/loan_refusal.RData"))</code></pre>
+&gt; readRDS(file = here::here("scripts", "cleaned_index_dataset.rds"))
+# A tibble: 144,408 × 27
+   geoid       year in100 countyfips statefips stateusps   pop z_ED_nat z_HE_nat
+   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+ 1 010010201…  2010     0 01001      01        AL          424  0.00120 -0.0165 
+ 2 010010201…  2015     0 01001      01        AL          414  0.00893  0.0356 
+ 3 010010202…  2010     0 01001      01        AL          497  0.0133  -0.0224 
+ 4 010010202…  2015     0 01001      01        AL          508 -0.00352 -0.0120 
+ 5 010010203…  2010     0 01001      01        AL          878 -0.0145  -0.0267 
+ 6 010010203…  2015     0 01001      01        AL          804 -0.0248  -0.00186
+ 7 010010204…  2010     0 01001      01        AL          965 -0.00414  0.00821
+ 8 010010204…  2015     0 01001      01        AL          968 -0.00642 -0.00108
+ 9 010010205…  2010     0 01001      01        AL         2955  0.0145   0.0124 
+10 010010205…  2015     0 01001      01        AL         2528  0.0107   0.0179 
+# ℹ 144,398 more rows
+# ℹ 18 more variables: z_SE_nat &lt;dbl&gt;, z_COI_nat &lt;dbl&gt;, c5_ED_nat &lt;chr&gt;,
+#   c5_HE_nat &lt;chr&gt;, c5_SE_nat &lt;chr&gt;, c5_COI_nat &lt;chr&gt;, r_ED_nat &lt;dbl&gt;,
+#   r_HE_nat &lt;dbl&gt;, r_SE_nat &lt;dbl&gt;, r_COI_nat &lt;dbl&gt;, c5_ED_stt &lt;chr&gt;,
+#   c5_HE_stt &lt;chr&gt;, c5_SE_stt &lt;chr&gt;, c5_COI_stt &lt;chr&gt;, r_ED_stt &lt;dbl&gt;,
+#   r_HE_stt &lt;dbl&gt;, r_SE_stt &lt;dbl&gt;, r_COI_stt &lt;dbl&gt;</code></pre>
 </div>
 </div>
 <p>You should never use absolute paths (eg. <code>/Users/danielsussman/path/to/project/</code> or <code>C:\MA415\\Final_Project\</code>).</p>
