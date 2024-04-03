@@ -1,0 +1,39 @@
+---
+title: "Blog 4"
+subtitle: "EDA & Initial Stage on Modeling"
+description: Exploratory data analysis and initial thoughts and results for statistical modeling
+author: "Team 12"
+date: "2024-04-03"
+date-modified: "2024-04-03"
+draft: FALSE
+---
+
+# Introduction
+
+This week, we've taken significant steps in our exploratory data analysis and embarked on the initial stages of modeling our data. EDA revealed intriguing patterns and raised essential questions, steering the direction of our research and model development. In this post, we'll share our process, our initial thoughts and result for the modelling.
+
+# Exploratory Data Analysis (EDA)
+
+The goal of our EDA this week was to understand our dataset more deeply and identify any potential issues that could affect our modeling efforts. Here are the key steps we took:
+
+## figure/table/output 1
+
+We first examined the breath of our data (looking at relationships among many different variables or groupings).
+
+```{r}
+
+
+
+```
+
+
+## figure/table/output 2
+
+Another interesting aspect we looked at was the depth of our data (developing a better understanding of a specific relationship and how other variables fit in).
+
+# Modelling
+
+What response variable are you interested in? What predictor variables? Are there transformations of columns that you’d need to do to create interesting predictors? What type of model do you want to fit? Linear? Logistic? Or something else?
+
+## 
+
