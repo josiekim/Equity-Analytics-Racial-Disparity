@@ -47,9 +47,10 @@ For larger datasets, you'll need to create a new folder in the project root dire
 Your [load_and_clean_data.R](/scripts/load_and_clean_data.R) file is how you will load and clean your data. Here is a an example of a very simple one.
 
 ```{r}
+library(here)
 source(
-  "scripts/load_and_clean_data.R",
-  echo = TRUE # Use echo=FALSE or omit it to avoid code output  
+  here::here("scripts/load_and_clean_data.R"),
+  echo = FALSE # Use echo=FALSE or omit it to avoid code output  
 )
 ```
 You should never use absolute paths (eg. `/Users/danielsussman/path/to/project/` or `C:\MA415\\Final_Project\`).
@@ -62,7 +63,23 @@ The idea behind this file is that someone coming to your website could largely r
 This file might create a derivative data set that you then use for your subsequent analysis.
 Note that you don't need to run this script from every post/page.
 Instead, you can load in the results of this script, which could be plain text files or `.RData` files. In your data page you'll describe how these results were created. If you have a very large data set, you might save smaller data sets that you can use for exploration purposes.
-To link to this file, you can use `[cleaning script](/scripts/load_and_clean_data.R)` wich appears as [cleaning script](/scripts/load_and_clean_data.R). 
+To link to this file, you can use `[cleaning script](/scripts/load_and_clean_data.R)` which appears as [cleaning script](/scripts/load_and_clean_data.R). 
+
+## Data Background
+Link: https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database
+
+The Child Opportunity Index 2.0 (COI 2.0) is a comprehensive tool developed in collaboration with the Kirwan Institute for the Study of Race and Ethnicity at Ohio State University, released in January 2020. It measures neighborhood-level resources and conditions essential for children's healthy development across the United States. The COI is a composite index of children's neighborhood opportunity that contains data for every neighborhood (census tract) in the United States from every year for 2012 through 2021. It is comprised of 44 indicators in three domains (education, health and environment, and social and economic) and 14 subdomains. These factors include the quality of schools, early childhood education centers, green spaces, access to healthy food, and low poverty levels, among others. Each neighborhood is assigned a Child Opportunity Score ranging from 1 (lowest) to 100 (highest), aiming to spur conversations about unequal access to opportunities and drive efforts toward increasing equity.
+
+To add more insight on the data, we will be using 3 different data files under the COI 2.0, which are the index data, child population data, and component indicators data respectively. There are 8 variables that are present in all 3 datasets, which, in essence, represent the geographical location of each metropolitan area. Some important variables to highlight in these datasets are the population of each race group per metro area, health insurance coverage, poverty rate, and median household income. We will keep a close eye on these features to see how they affect a child’s overall opportunity.
+  
+## Data Cleaning
+Link to data: [`load_and_clean_data.R`](/scripts/load_and_clean_data.R)
+
+(will expand on data cleaning areas and planning on renaming columns)
+
+To clean our data set, we decided to remove columns "c5_ED_met", "c5_HE_met", "c5_SE_met", "c5_COI_met", "r_ED_met", "r_HE_met", "r_SE_met", "r_COI_met". These columns in particular contained majority empty cells and we discovered that they did not contribute much to the overall analyses of our data set. We added 3 dummy variables to indicate whether or not the census tract is within one of the 100 largest metro areas, within a micro/metro area that's not within one of the 100, and if it's not within a metro/micro area. If it it's True, the value in the column will be 1. Additionally, we renamed the columns to clearly show what the columns are representing. The original column names were difficult to interpret and we found ourselves referring to the data dictionary often. 
+
+In our `load_and_clean_data.R` file, the code snippet utilizes the `tidyverse` package to handle data manipulation and analysis tasks efficiently. It reads in a CSV file named `index.csv` located within the `scripts/index` directory relative to the project root directory using the `read_csv` function from the `tidyverse` package. The loaded data is stored in the `load_data` variable. Subsequently, the data is copied into another variable named `load_data_clean`. Finally, the cleaned data is saved as an `.rds` file named `cleaned_index_dataset.rds` in the `scripts` directory using the `saveRDS` function. This ensures that the cleaned dataset can be easily accessed and shared for future analyses. Additionally, the `readRDS` function is used to read the saved `.rds` file, enabling the retrieval of the cleaned dataset for further processing or exploration.
 
 ----
 
@@ -77,7 +94,7 @@ You will
   * If you have many variables then only describe the most relevant ones and summarize the rest.
 * Describe any cleaning you had to do for your data.
   * You *must* include a link to your `load_and_clean_data.R` file.
-  * Rrename variables and recode factors to make data more clear.
+  * Rename variables and recode factors to make data more clear.
   * Also, describe any additional R packages you used outside of those covered in class.
   * Describe and show code for how you combined multiple data files and any cleaning that was necessary for that.
   * Some repetition of what you do in your `load_and_clean_data.R` file is fine and encouraged if it helps explain what you did.
