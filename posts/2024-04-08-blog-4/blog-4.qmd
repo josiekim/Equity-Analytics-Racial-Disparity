@@ -13,8 +13,6 @@ We've chosen bar plots to examine the relationship between our area variables (s
 ```{r}
 index <- readRDS('scripts/cleaned_index_dataset.rds')
 
-index
-
 library(tidyverse)
 
 lm_model <- lm(r_HE_nat ~ in_largest_metro, data = index)
