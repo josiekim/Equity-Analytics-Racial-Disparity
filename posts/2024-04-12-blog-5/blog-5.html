@@ -7,10 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Team 12">
-<meta name="dcterms.date" content="2024-04-03">
-<meta name="description" content="Exploratory data analysis and initial thoughts and results for statistical modeling">
+<meta name="dcterms.date" content="2024-04-12">
 
-<title>Team 12 - Blog 4</title>
+<title>Team 12 - Blog 5</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,14 +117,9 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Blog 4</h1>
-            <p class="subtitle lead">EDA &amp; Initial Stage on Modeling</p>
-                  <div>
-        <div class="description">
-          Exploratory data analysis and initial thoughts and results for statistical modeling
-        </div>
-      </div>
-                </div>
+      <h1 class="title">Blog 5</h1>
+            <p class="subtitle lead">Description of data set 2</p>
+                      </div>
   </div>
     
   
@@ -141,14 +135,14 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">April 3, 2024</p>
+        <p class="date">April 12, 2024</p>
       </div>
     </div>
     
       <div>
       <div class="quarto-title-meta-heading">Modified</div>
       <div class="quarto-title-meta-contents">
-        <p class="date-modified">April 3, 2024</p>
+        <p class="date-modified">April 12, 2024</p>
       </div>
     </div>
       
@@ -166,31 +160,12 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
-<p>This week, we’ve taken significant steps in our exploratory data analysis and embarked on the initial stages of modeling our data. EDA revealed intriguing patterns and raised essential questions, steering the direction of our research and model development. In this post, we’ll share our process, our initial thoughts and result for the modelling.</p>
-</section>
-<section id="exploratory-data-analysis-eda" class="level1">
-<h1>Exploratory Data Analysis (EDA)</h1>
-<p>The goal of our EDA this week was to understand our dataset more deeply and identify any potential issues that could affect our modeling efforts. Here are the key steps we took:</p>
-<section id="figuretableoutput-1" class="level2">
-<h2 class="anchored" data-anchor-id="figuretableoutput-1">figure/table/output 1</h2>
-<p>We first examined the breath of our data (looking at relationships among many different variables or groupings).</p>
-</section>
-<section id="figuretableoutput-2" class="level2">
-<h2 class="anchored" data-anchor-id="figuretableoutput-2">figure/table/output 2</h2>
-<p>Another interesting aspect we looked at was the depth of our data (developing a better understanding of a specific relationship and how other variables fit in).</p>
-</section>
-</section>
-<section id="modelling" class="level1">
-<h1>Modelling</h1>
-<p>What response variable are you interested in? What predictor variables? Are there transformations of columns that you’d need to do to create interesting predictors? What type of model do you want to fit? Linear? Logistic? Or something else?</p>
-<section id="section" class="level2">
-<h2 class="anchored" data-anchor-id="section"></h2>
+<p>https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/44ee1ea6-a3df-4af3-93b7-c4695d5ab6a6</p>
+<p>https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/f16fff12-b1e5-4f60-85d3-3a0ededa30a0</p>
+<p>These will be the two datasets that we will be combining to our original dataset. The first dataset has information about the demographic population in each metropolitan area based on a “geoid”. The second dataset has information about features that play into a child’s overall opportunity, such as whether their parents attended college, whether there is access to healthy foods, and etc, in each metropolitan area. By combining these two datasets with the original one, we can better understand what features contribute to a child’s overall opportunity and further explore how certain features in a metropolitan area affect certain demographics of children. In addition to this, these two datasets allow us to better characterize neighborhoods and understand the disparities and advantages that exist within them.</p>
+<p>We are still in the middle of figuring out how to combine our datasets together, but we have the general idea that all three datasets have the 8 same variables: ‘geoid’, ‘year’, ‘in100’, ‘msaid15’, ‘msaname15’, ‘countyfips’, ‘statefips’, and ‘stateusps’. Knowing this, we will plan to join these datasets on the ‘geoid’ since this variable is unique for each metropolitan area, leading to a smooth combination. Prior to performing the combination, we will ensure that the data types are the same across all datasets so that the merged dataset remains accurate.</p>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
