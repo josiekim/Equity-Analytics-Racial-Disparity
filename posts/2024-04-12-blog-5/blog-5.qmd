@@ -6,10 +6,10 @@ date: "2024-04-12"
 date-modified: "2024-04-12"
 draft: FALSE
 ---
-Child population data - Number of children aged 0-17 years by race/ethnicity from the American Community Survey
-Link: https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/44ee1ea6-a3df-4af3-93b7-c4695d5ab6a6 
+https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/44ee1ea6-a3df-4af3-93b7-c4695d5ab6a6
 
+https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/f16fff12-b1e5-4f60-85d3-3a0ededa30a0
 
-One of the requirements for your project is that you bring together multiple datasets to enable a more in depth analysis. This could be including weather data based on dates, including demographic data based on location, among many other possibilities. If you can't find data that you can directly join with your data, you could look for a related data set to your original data set to enable a comparative analysis.
- 
-For this week’s blog post, please describe the datasets you are combining, how you are combining them, and what your initial findings were. If you haven’t finished combining datasets, that is fine, just discuss where you are in the process and what your next steps are.
+These will be the two datasets that we will be combining to our original dataset. The first dataset has information about the demographic population in each metropolitan area based on a “geoid”. The second dataset has information about features that play into a child’s overall opportunity, such as whether their parents attended college, whether there is access to healthy foods, and etc, in each metropolitan area. By combining these two datasets with the original one, we can better understand what features contribute to a child’s overall opportunity and further explore how certain features in a metropolitan area affect certain demographics of children. In addition to this, these two datasets allow us to better characterize neighborhoods and understand the disparities and advantages that exist within them.
+
+We are still in the middle of figuring out how to combine our datasets together, but we have the general idea that all three datasets have the 8 same variables: ‘geoid’, ‘year’, ‘in100’, ‘msaid15’, ‘msaname15’, ‘countyfips’, ‘statefips’, and ‘stateusps’. Knowing this, we will plan to join these datasets on the ‘geoid’ since this variable is unique for each metropolitan area, leading to a smooth combination. Prior to performing the combination, we will ensure that the data types are the same across all datasets so that the merged dataset remains accurate.
