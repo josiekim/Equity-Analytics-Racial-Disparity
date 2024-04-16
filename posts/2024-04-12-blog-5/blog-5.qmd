@@ -1,0 +1,15 @@
+---
+title: "Blog 5"
+subtitle: "Description of data set 2"
+author: "Team 12"
+date: "2024-04-12"
+date-modified: "2024-04-12"
+draft: FALSE
+---
+Child population data - Number of children aged 0-17 years by race/ethnicity from the American Community Survey
+Link: https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/44ee1ea6-a3df-4af3-93b7-c4695d5ab6a6 
+
+
+One of the requirements for your project is that you bring together multiple datasets to enable a more in depth analysis. This could be including weather data based on dates, including demographic data based on location, among many other possibilities. If you can't find data that you can directly join with your data, you could look for a related data set to your original data set to enable a comparative analysis.
+ 
+For this week’s blog post, please describe the datasets you are combining, how you are combining them, and what your initial findings were. If you haven’t finished combining datasets, that is fine, just discuss where you are in the process and what your next steps are.
