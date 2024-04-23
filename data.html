@@ -225,14 +225,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>here() starts at /Users/josephinekim/Downloads/ma415 lab0 clone/final-project-team12</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"scripts/load_and_clean_data.R"</span>),</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">echo =</span> <span class="cn">FALSE</span> <span class="co"># Use echo=FALSE or omit it to avoid code output  </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"scripts/load_and_clean_data.R"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">echo =</span> <span class="cn">TRUE</span> <span class="co"># Use echo=FALSE or omit it to avoid code output  </span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+&gt; library(tidyverse)</code></pre>
+</div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ ggplot2   3.5.0     ✔ tibble    3.2.1
 ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
 ✔ purrr     1.0.2     </code></pre>
 </div>
@@ -240,19 +244,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
-Rows: 144408 Columns: 30
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (12): geoid, countyfips, statefips, stateusps, c5_ED_nat, c5_HE_nat, c5_...
-dbl (18): year, in100, in_largest_metro, in_metromicro_not_in_100, not_in_me...
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+&gt; load("scripts/cleaned_data.RData")
 
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+&gt; saveRDS(cleaned_data, file = "scripts/cleaned_data.rds")
+
+&gt; loaded_data &lt;- readRDS(file = "scripts/cleaned_data.rds")</code></pre>
 </div>
 </div>
-<p>You should never use absolute paths (eg. <code>/Users/danielsussman/path/to/project/</code> or <code>C:\MA415\\Final_Project\</code>).</p>
-<p>You might consider using the <code>here</code> function from the <a href="https://here.r-lib.org/articles/here.html"><code>here</code> package</a> to avoid path problems.</p>
 </section>
 <section id="load-and-clean-data-script" class="level3">
 <h3 class="anchored" data-anchor-id="load-and-clean-data-script">Load and clean data script</h3>
@@ -262,15 +264,21 @@ dbl (18): year, in100, in_largest_metro, in_metromicro_not_in_100, not_in_me...
 <section id="data-background" class="level2">
 <h2 class="anchored" data-anchor-id="data-background">Data Background</h2>
 <p>Link: https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database</p>
-<p>The Child Opportunity Index 2.0 (COI 2.0) is a comprehensive tool developed in collaboration with the Kirwan Institute for the Study of Race and Ethnicity at Ohio State University, released in January 2020. It measures neighborhood-level resources and conditions essential for children’s healthy development across the United States. The COI is a composite index of children’s neighborhood opportunity that contains data for every neighborhood (census tract) in the United States from every year for 2012 through 2021. It is comprised of 44 indicators in three domains (education, health and environment, and social and economic) and 14 subdomains. These factors include the quality of schools, early childhood education centers, green spaces, access to healthy food, and low poverty levels, among others. Each neighborhood is assigned a Child Opportunity Score ranging from 1 (lowest) to 100 (highest), aiming to spur conversations about unequal access to opportunities and drive efforts toward increasing equity.</p>
-<p>To add more insight on the data, we will be using 3 different data files under the COI 2.0, which are the index data, child population data, and component indicators data respectively. There are 8 variables that are present in all 3 datasets, which, in essence, represent the geographical location of each metropolitan area. Some important variables to highlight in these datasets are the population of each race group per metro area, health insurance coverage, poverty rate, and median household income. We will keep a close eye on these features to see how they affect a child’s overall opportunity.</p>
+<p>The Child Opportunity Index 2.0 (COI 2.0) is a comprehensive tool developed in collaboration with the Kirwan Institute for the Study of Race and Ethnicity at Ohio State University, released in January 2020. It measures neighborhood-level resources and conditions essential for children’s healthy development across the United States. The COI is a composite index of children’s neighborhood opportunity that contains data for every neighborhood (census tract) in the United States from every year for 2012 through 2021. It is comprised of 44 indicators in three domains (education, health and environment, and social and economic) and 14 subdomains. COI 2.0 compiles data from state and federal sources. This comprehensive data collection process examines approximately 72,000 neighborhood conditions crucial for children’s well-being, including school quality, green space availability, air quality, and adult employment levels. The resulting Child Opportunity Score, ranging from 1 to 100, provides insight into each U.S. neighborhood and metro area’s position in the national child opportunity landscape, aiming to spotlight disparities within the largest 100 U.S. metros. Particularly, it reveals significant racial inequities with implications for children’s health, education, and life expectancy.</p>
+<p>To add more insight on the data, we will be using 3 different data files under the COI 2.0, which are the index data, child population data, and component indicators data respectively. There are 8 variables that are present in all 3 data sets, which, in essence, represent the geographical location of each metropolitan area. Some important variables to highlight in these datasets are the population of each race group per metro area, health insurance coverage, poverty rate, and median household income. We will keep a close eye on these features to see how they affect a child’s overall opportunity.</p>
 </section>
 <section id="data-cleaning" class="level2">
 <h2 class="anchored" data-anchor-id="data-cleaning">Data Cleaning</h2>
-<p>Link to data: <a href="./scripts/load_and_clean_data.R"><code>load_and_clean_data.R</code></a></p>
-<p>(will expand on data cleaning areas and planning on renaming columns)</p>
-<p>To clean our data set, we decided to remove columns “c5_ED_met”, “c5_HE_met”, “c5_SE_met”, “c5_COI_met”, “r_ED_met”, “r_HE_met”, “r_SE_met”, “r_COI_met”. These columns in particular contained majority empty cells and we discovered that they did not contribute much to the overall analyses of our data set. We added 3 dummy variables to indicate whether or not the census tract is within one of the 100 largest metro areas, within a micro/metro area that’s not within one of the 100, and if it’s not within a metro/micro area. If it it’s True, the value in the column will be 1. Additionally, we renamed the columns to clearly show what the columns are representing. The original column names were difficult to interpret and we found ourselves referring to the data dictionary often.</p>
-<p>In our <code>load_and_clean_data.R</code> file, the code snippet utilizes the <code>tidyverse</code> package to handle data manipulation and analysis tasks efficiently. It reads in a CSV file named <code>index.csv</code> located within the <code>scripts/index</code> directory relative to the project root directory using the <code>read_csv</code> function from the <code>tidyverse</code> package. The loaded data is stored in the <code>load_data</code> variable. Subsequently, the data is copied into another variable named <code>load_data_clean</code>. Finally, the cleaned data is saved as an <code>.rds</code> file named <code>cleaned_index_dataset.rds</code> in the <code>scripts</code> directory using the <code>saveRDS</code> function. This ensures that the cleaned dataset can be easily accessed and shared for future analyses. Additionally, the <code>readRDS</code> function is used to read the saved <code>.rds</code> file, enabling the retrieval of the cleaned dataset for further processing or exploration.</p>
+<p>To clean our data set, we decided to remove columns “c5_ED_met”, “c5_HE_met”, “c5_SE_met”, “c5_COI_met”, “r_ED_met”, “r_HE_met”, “r_SE_met”, “r_COI_met”. These columns in particular contained majority empty cells and we discovered that they did not contribute much to the overall analyses of our data set. We added 3 dummy variables to indicate whether or not the census tract is within one of the 100 largest metro areas, within a micro/metro area that’s not within one of the 100, and if it’s not within a metro/micro area. If it it’s True, the value in the column will be 1.</p>
+<p>In the next step of our data cleaning process, we used <code>read.csv</code> to access our 3 data sets <code>childpop_race.csv</code>, <code>rawindicators.csv</code>, and <code>index.csv</code>. Then, in order to narrow the scope of our analysis, we used <code>filter(year != 2010)</code> to isolate data from the year 2010. We decided to merge all 3 data sets on <code>geoid</code> using <code>inner_join</code> since it was present in all 3 data sets.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>merged_df <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(childpop, indicators, <span class="at">by =</span> <span class="st">"geoid"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>cleaned_merged_df <span class="ot">&lt;-</span> <span class="fu">merge</span>(merged_df, index, <span class="at">by =</span> <span class="st">"geoid"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Upon merging all 3 data sets, we had an abundance of duplicated columns. We selected the duplicated columns and placed a negative sign, <code>-</code>, before the column name to indicate it’s being removed. Additionally, we renamed the columns using <code>rename()</code> to clearly show what the columns are representing. The original column names were difficult to interpret and we found ourselves referring to the data dictionary often. In the last step of our data cleaning process, we removed any null values in the data. Since these null values were sparse, we chose not to remove the columns themselves as we had done in the beginning. Instead, we removed the rows that contained the null values by counting and summing the null rows and then omitting them with <code>na.omit()</code>. We also grouped the different states (including Washington D.C.) by Northwest, Northeast, South, and West regions into a new data frame called <code>region_data</code>. Additionally, we grouped the different racial groups by state to get a total of the different race populations per state to better visualize the distribution of race populations per state.</p>
+<p>In our <code>load_and_clean_data.R</code> file, the code snippet utilizes the <code>tidyverse</code> package to handle data manipulation and analysis tasks efficiently. It reads in a RData file named <code>cleaned_merged_dg.RData</code> located within the <code>datasets</code> directory using the <code>load()</code> function. The cleaned data is saved as an <code>.rds</code> file named <code>cleaned_merged_df.rds</code> in the <code>scripts</code> directory using the <code>saveRDS</code> function. This ensures that the cleaned data set can be easily accessed and shared for future analyses. Additionally, the <code>readRDS</code> function is used to read the saved <code>.rds</code> file, enabling the retrieval of the cleaned data set for further processing or exploration.</p>
 <hr>
 </section>
 <section id="rubric-on-this-page" class="level2">
