@@ -1,0 +1,202 @@
+```{r}
+library(ggplot2)
+library(readr)
+library(dplyr)
+library(tidyr)
+
+cleaned_data <- read_rds('scripts/cleaned_data.rds')
+
+college_data <- cleaned_data %>%
+  select(aian, api, black, white, hisp, other2, nonwhite, college_enrollment, state_usps)
+
+college_data_long <- tidyr::pivot_longer(college_data,
+                                          cols = c(aian, api, black, white, hisp, other2, nonwhite),
+                                          names_to = "race",
+                                          names_repair = "unique") # Specify repair strategy
+
+college_data_summarized <- college_data_long %>%
+  group_by(state_usps, race) %>%
+  summarize(average_college_enrollment = mean(value, na.rm = TRUE))
+
+ggplot(college_data_summarized, aes(x = race, y = average_college_enrollment, fill = race)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~state_usps) +
+  labs(title = "Average College Enrollment by Race and State",
+       x = "Race",
+       y = "Average College Enrollment",
+       fill = "Race") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+```{r}
+library(ggplot2)
+library(readr)
+library(dplyr)
+library(tidyr)
+
+cleaned_data <- read_rds('scripts/cleaned_data.rds')
+
+unique_states <- unique(cleaned_data$state_usps)
+length(unique_states)
+
+region_data <- data.frame(
+  state_usps = c(
+    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", 
+    "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", 
+    "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", 
+    "WI", "WY", "DC"
+  ),
+  region = c(
+    "South", "West", "West", "South", "West", "West", "Northeast", "Northeast", "South", "South", 
+    "West", "West", "Midwest", "Midwest", "Midwest", "Midwest", "South", "South", "Northeast", 
+    "Northeast", "Northeast", "Midwest", "Midwest", "South", "Midwest", "West", "Midwest", "Midwest", 
+    "West", "Northeast", "Northeast", "West", "South", "Midwest", "Midwest", "South", "Northeast", 
+    "South", "Midwest", "Northeast", "South", "Midwest", "South", "West", "West", "Northeast", "South",
+    "West", "Northeast", "Northeast", "Northeast"
+  )
+)
+
+college_data <- cleaned_data %>%
+  left_join(region_data, by = "state_usps") %>%
+  select(aian, api, black, white, hisp, college_enrollment, state_usps, region)
+
+college_data_long <- tidyr::pivot_longer(college_data,
+                                         cols = c(aian, api, black, white, hisp),
+                                         names_to = "race",
+                                         names_repair = "unique")
+
+college_data_summarized <- college_data_long %>%
+  group_by(region, race) %>%
+  summarize(average_college_enrollment = mean(value, na.rm = TRUE))
+
+ggplot(college_data_summarized, aes(x = race, y = average_college_enrollment, fill = race)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~region) +  # Facet by region
+  labs(title = "Average College Enrollment by Race and Region",
+       x = "Race",
+       y = "Average College Enrollment",
+       fill = "Race") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+```{r}
+library(ggplot2)
+library(readr)
+library(dplyr)
+library(tidyr)
+library(maps)
+
+# Load cleaned data from RDS file
+cleaned_data <- read_rds('scripts/cleaned_data.rds')
+
+# Define regions for each state manually
+region_data <- data.frame(
+  state_usps = c(
+    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", 
+    "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", 
+    "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", 
+    "WI", "WY", "DC"
+  ),
+  region = c(
+    "South", "West", "West", "South", "West", "West", "Northeast", "Northeast", "South", "South", 
+    "West", "West", "Midwest", "Midwest", "Midwest", "Midwest", "South", "South", "Northeast", 
+    "Northeast", "Northeast", "Midwest", "Midwest", "South", "Midwest", "West", "Midwest", "Midwest", 
+    "West", "Northeast", "Northeast", "West", "South", "Midwest", "Midwest", "South", "Northeast", 
+    "South", "Midwest", "Northeast", "South", "Midwest", "South", "West", "West", "Northeast", "South",
+    "West", "Northeast", "Northeast", "Northeast"
+  )
+)
+
+# Merge region data with college enrollment data
+college_data <- cleaned_data %>%
+  left_join(region_data, by = "state_usps") %>%
+  select(aian, api, black, white, hisp, other2, nonwhite, college_enrollment, state_usps, region)
+
+# Pivot the data frame to long format for ggplot2
+college_data_long <- tidyr::pivot_longer(college_data,
+                                         cols = c(aian, api, black, white, hisp, other2, nonwhite),
+                                         names_to = "race",
+                                         names_repair = "unique")
+
+# Summarize average college enrollment by race and region
+college_data_summarized <- college_data_long %>%
+  group_by(region, race) %>%
+  summarize(average_college_enrollment = mean(value, na.rm = TRUE), .groups = "drop")  # Override grouping
+
+# Get US map data
+us_map <- map_data("state")
+
+# Plot the data with a map
+ggplot() +
+  geom_map(data = us_map, map = us_map,
+           aes(map_id = region)) +
+  geom_text(data = college_data_summarized,
+            aes(label = round(average_college_enrollment, 2), x = region, y = 0, group = region),
+            size = 3, color = "black") +
+  labs(title = "Average College Enrollment by Race and Region",
+       x = "Race",
+       y = "Average College Enrollment") +
+  theme_void() +
+  coord_map() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+```{r}
+library(ggplot2)
+library(readr)
+library(dplyr)
+library(tidyr)
+
+cleaned_data <- read_rds('scripts/cleaned_data.rds')
+
+unique_states <- unique(cleaned_data$state_usps)
+length(unique_states)
+
+region_data <- data.frame(
+  state_usps = c(
+    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", 
+    "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", 
+    "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", 
+    "WI", "WY", "DC"
+  ),
+  region = c(
+    "South", "West", "West", "South", "West", "West", "Northeast", "Northeast", "South", "South", 
+    "West", "West", "Midwest", "Midwest", "Midwest", "Midwest", "South", "South", "Northeast", 
+    "Northeast", "Northeast", "Midwest", "Midwest", "South", "Midwest", "West", "Midwest", "Midwest", 
+    "West", "Northeast", "Northeast", "West", "South", "Midwest", "Midwest", "South", "Northeast", 
+    "South", "Midwest", "Northeast", "South", "Midwest", "South", "West", "West", "Northeast", "South",
+    "West", "Northeast", "Northeast", "Northeast"
+  )
+)
+
+home_own_data <- cleaned_data %>%
+  left_join(region_data, by = "state_usps") %>%
+  select(aian, api, black, white, hisp, home_ownership_rate, state_usps, region)
+
+home_own_data_long <- tidyr::pivot_longer(home_own_data,
+                                         cols = c(aian, api, black, white, hisp),
+                                         names_to = "race",
+                                         names_repair = "unique")
+
+home_own_data_summarized <- home_own_data_long %>%
+  group_by(region, race) %>%
+  summarize(average_home_ownership = mean(value, na.rm = TRUE))
+
+ggplot(home_own_data_summarized, aes(x = race, y = average_home_ownership, fill = race)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~region) +  # Facet by region
+  labs(title = "Average Home Ownership Rate by Race and Region",
+       x = "Race",
+       y = "Average Home Ownership Rate",
+       fill = "Race") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+home_ownership_rate
+med_house_income
+employ_rate
+

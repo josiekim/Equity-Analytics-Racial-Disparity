@@ -49,13 +49,10 @@ Your [load_and_clean_data.R](/scripts/load_and_clean_data.R) file is how you wil
 ```{r}
 library(here)
 source(
-  here::here("scripts/load_and_clean_data.R"),
-  echo = FALSE # Use echo=FALSE or omit it to avoid code output  
+  "scripts/load_and_clean_data.R",
+  echo = TRUE # Use echo=FALSE or omit it to avoid code output  
 )
 ```
-You should never use absolute paths (eg. `/Users/danielsussman/path/to/project/` or `C:\MA415\\Final_Project\`).
-
-You might consider using the `here` function from the [`here` package](https://here.r-lib.org/articles/here.html) to avoid path problems.
 
 ### Load and clean data script
 
@@ -68,18 +65,24 @@ To link to this file, you can use `[cleaning script](/scripts/load_and_clean_dat
 ## Data Background
 Link: https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database
 
-The Child Opportunity Index 2.0 (COI 2.0) is a comprehensive tool developed in collaboration with the Kirwan Institute for the Study of Race and Ethnicity at Ohio State University, released in January 2020. It measures neighborhood-level resources and conditions essential for children's healthy development across the United States. The COI is a composite index of children's neighborhood opportunity that contains data for every neighborhood (census tract) in the United States from every year for 2012 through 2021. It is comprised of 44 indicators in three domains (education, health and environment, and social and economic) and 14 subdomains. These factors include the quality of schools, early childhood education centers, green spaces, access to healthy food, and low poverty levels, among others. Each neighborhood is assigned a Child Opportunity Score ranging from 1 (lowest) to 100 (highest), aiming to spur conversations about unequal access to opportunities and drive efforts toward increasing equity.
+The Child Opportunity Index 2.0 (COI 2.0) is a comprehensive tool developed in collaboration with the Kirwan Institute for the Study of Race and Ethnicity at Ohio State University, released in January 2020. It measures neighborhood-level resources and conditions essential for children's healthy development across the United States. The COI is a composite index of children's neighborhood opportunity that contains data for every neighborhood (census tract) in the United States from every year for 2012 through 2021. It is comprised of 44 indicators in three domains (education, health and environment, and social and economic) and 14 subdomains. COI 2.0 compiles data from state and federal sources. This comprehensive data collection process examines approximately 72,000 neighborhood conditions crucial for children's well-being, including school quality, green space availability, air quality, and adult employment levels. The resulting Child Opportunity Score, ranging from 1 to 100, provides insight into each U.S. neighborhood and metro area's position in the national child opportunity landscape, aiming to spotlight disparities within the largest 100 U.S. metros. Particularly, it reveals significant racial inequities with implications for children's health, education, and life expectancy.
 
-To add more insight on the data, we will be using 3 different data files under the COI 2.0, which are the index data, child population data, and component indicators data respectively. There are 8 variables that are present in all 3 datasets, which, in essence, represent the geographical location of each metropolitan area. Some important variables to highlight in these datasets are the population of each race group per metro area, health insurance coverage, poverty rate, and median household income. We will keep a close eye on these features to see how they affect a child’s overall opportunity.
+To add more insight on the data, we will be using 3 different data files under the COI 2.0, which are the index data, child population data, and component indicators data respectively. There are 8 variables that are present in all 3 data sets, which, in essence, represent the geographical location of each metropolitan area. Some important variables to highlight in these datasets are the population of each race group per metro area, health insurance coverage, poverty rate, and median household income. We will keep a close eye on these features to see how they affect a child’s overall opportunity.
   
 ## Data Cleaning
-Link to data: [`load_and_clean_data.R`](/scripts/load_and_clean_data.R)
 
-(will expand on data cleaning areas and planning on renaming columns)
+To clean our data set, we decided to remove columns "c5_ED_met", "c5_HE_met", "c5_SE_met", "c5_COI_met", "r_ED_met", "r_HE_met", "r_SE_met", "r_COI_met". These columns in particular contained majority empty cells and we discovered that they did not contribute much to the overall analyses of our data set. We added 3 dummy variables to indicate whether or not the census tract is within one of the 100 largest metro areas, within a micro/metro area that's not within one of the 100, and if it's not within a metro/micro area. If it it's True, the value in the column will be 1. 
 
-To clean our data set, we decided to remove columns "c5_ED_met", "c5_HE_met", "c5_SE_met", "c5_COI_met", "r_ED_met", "r_HE_met", "r_SE_met", "r_COI_met". These columns in particular contained majority empty cells and we discovered that they did not contribute much to the overall analyses of our data set. We added 3 dummy variables to indicate whether or not the census tract is within one of the 100 largest metro areas, within a micro/metro area that's not within one of the 100, and if it's not within a metro/micro area. If it it's True, the value in the column will be 1. Additionally, we renamed the columns to clearly show what the columns are representing. The original column names were difficult to interpret and we found ourselves referring to the data dictionary often. 
+In the next step of our data cleaning process, we used `read.csv` to access our 3 data sets `childpop_race.csv`, `rawindicators.csv`, and `index.csv`. Then, in order to narrow the scope of our analysis, we used `filter(year != 2010)` to isolate data from the year 2010. We decided to merge all 3 data sets on `geoid` using `inner_join` since it was present in all 3 data sets. 
+```{r}
+merged_df <- inner_join(childpop, indicators, by = "geoid") |>
+  distinct()
+cleaned_merged_df <- merge(merged_df, index, by = "geoid") |>
+  distinct()
+```
+Upon merging all 3 data sets, we had an abundance of duplicated columns. We selected the duplicated columns and placed a negative sign, `-`, before the column name to indicate it's being removed. Additionally, we renamed the columns using `rename()` to clearly show what the columns are representing. The original column names were difficult to interpret and we found ourselves referring to the data dictionary often. In the last step of our data cleaning process, we removed any null values in the data. Since these null values were sparse, we chose not to remove the columns themselves as we had done in the beginning. Instead, we removed the rows that contained the null values by counting and summing the null rows and then omitting them with `na.omit()`. We also grouped the different states (including Washington D.C.) by Northwest, Northeast, South, and West regions into a new data frame called `region_data`. Additionally, we grouped the different racial groups by state to get a total of the different race populations per state to better visualize the distribution of race populations per state.
 
-In our `load_and_clean_data.R` file, the code snippet utilizes the `tidyverse` package to handle data manipulation and analysis tasks efficiently. It reads in a CSV file named `index.csv` located within the `scripts/index` directory relative to the project root directory using the `read_csv` function from the `tidyverse` package. The loaded data is stored in the `load_data` variable. Subsequently, the data is copied into another variable named `load_data_clean`. Finally, the cleaned data is saved as an `.rds` file named `cleaned_index_dataset.rds` in the `scripts` directory using the `saveRDS` function. This ensures that the cleaned dataset can be easily accessed and shared for future analyses. Additionally, the `readRDS` function is used to read the saved `.rds` file, enabling the retrieval of the cleaned dataset for further processing or exploration.
+In our `load_and_clean_data.R` file, the code snippet utilizes the `tidyverse` package to handle data manipulation and analysis tasks efficiently. It reads in a RData file named `cleaned_merged_dg.RData` located within the `datasets` directory using the `load()` function. The cleaned data is saved as an `.rds` file named `cleaned_merged_df.rds` in the `scripts` directory using the `saveRDS` function. This ensures that the cleaned data set can be easily accessed and shared for future analyses. Additionally, the `readRDS` function is used to read the saved `.rds` file, enabling the retrieval of the cleaned data set for further processing or exploration.
 
 ----
 

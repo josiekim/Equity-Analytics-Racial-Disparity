@@ -1,11 +1,10 @@
 library(tidyverse)
 
-load_data <- read_csv(here::here("scripts", "index/index.csv"))
+load("scripts/cleaned_data.RData")
 
-load_data_clean <- load_data  
+saveRDS(cleaned_data, file = "scripts/cleaned_data.rds")
 
-saveRDS(load_data_clean, file = here::here("scripts", "cleaned_index_dataset.rds"))
+loaded_data <- readRDS(file = "scripts/cleaned_data.rds")
 
-readRDS(file = here::here("scripts", "cleaned_index_dataset.rds"))
 
 

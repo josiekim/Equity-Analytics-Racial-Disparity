@@ -1,0 +1,12 @@
+---
+title: "Blog 6"
+subtitle: "Continuation of exploratory data analysis"
+author: "Team 12"
+date: "2024-04-18"
+date-modified: "2024-04-18"
+draft: FALSE
+---
+We decided to explore the college enrollment of races by state to further our exploratory data analysis. Since we are analyzing opportunity levels by race for different regions, we thought college enrollment would be a good indicator. This is because college enrollment provides a clear understanding of the earlier education opportunities the children had. For example, if the children were enrolled into colleges, they likely had access to education centers or were enrolled in AP classes. We also are able to assume that they graduated from high school or had proof of a GED. From our graph, we see that White students had the highest college enrollment across the 4 regions, towering over the other race groups (except for Hispanic students in the West). This shows that White students had higher opportunities over other students, but considering this is early in their adult life and only one indicator of opportunity levels, we also wanted to explore their home ownership rate. We found that by graphing the home ownership rate, White students surpassed the other races. We thought home ownership would further our analysis and understanding since it's a strong measure of how one is doing in life. It shows that the student has a stable income, possibly a family, and is looking to settle down. We plan to repeat this process for various other variables such as median income. 
+
+We will continue graphing, but we also want to begin creating prediction models. We are curious as to what factors go into college enrollment and the significance of them. For this reason, we will be running regression models to predict college enrollment with independent variables such as median income, AP class enrollment, and access to education centers. Based on the significance of the variables, we will be delving deeper into which race groups and regions have the highest opportunity levels for the significant factors. As of now, this process will be repeated for employment rate and home ownership rate as well. However, based on our analysis, we are flexible to predict other variables using the relevant independent variables.
+
