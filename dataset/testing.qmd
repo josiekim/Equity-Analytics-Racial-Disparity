@@ -82,7 +82,6 @@ head(cleaned_merged_df)
 ```{r}
 na_rows_count <- sum(!complete.cases(cleaned_merged_df))
 cleaned_data <- na.omit(cleaned_merged_df)
-cleaned_data <- select(cleaned_data, -in_largest_metro, -in_metromicro_not_in_100, -not_in_metromicro)
 ```
 
 
