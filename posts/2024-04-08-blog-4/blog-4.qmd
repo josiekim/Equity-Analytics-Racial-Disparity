@@ -8,25 +8,25 @@ draft: FALSE
 ---
 As a team, we have decided to get a more detailed explanation for the trend by exploring its relationship to other variables. In Blog 2, we looked at County and Weighted Average of Social and Economic Domain Component. But to get a better understanding of how County affects the child opportunity levels, we plan to explore the relationship between Education Domain and Health and Environment Domain. This is because by looking at a singular component of the data, we only get narrow understanding of how location can impact opportunity levels. This factors into the depth aspect of data exploration. By focusing on specific areas, we can see how these variables fit and whether other variables should be incorporated. 
 
-We've chosen bar plots to examine the relationship between our area variables (since they are dummy variables), as they effectively illustrate the frequency distribution of each category. Bar plots are particularly useful for comparing the occurrence of different categories, aiding in our understanding of the data's categorical relationships. Additionally, we will conduct linear regressions for the variables to analyze the relationship between the dependent variable and one or more independent variables by fitting a linear equation to the observed data. For our response variable, we will look at the opportunity levels within the different domains. Our predictor variables will be the different areas (metro, micro/metro, and not in a micro/metro area). In order to create these predictors, we made dummy variables for each area with 1 indicating, for example, being located in a metro area and 0 being located outside a metro area. 
+We've chosen bar plots to examine the relationship between our area variables (since they are dummy variables), as they effectively illustrate the frequency distribution of each category. Bar plots are particularly useful for comparing the occurrence of different categories, aiding in our understanding of the data's relationships. Additionally, we will conduct linear regressions for the variables to analyze the relationship between the dependent variable and one or more independent variables by fitting a linear equation to the observed data. For our response variable, we will look at the opportunity levels within the different domains. Our predictor variables will be the different areas (in100). 
 
 ```{r}
-index <- readRDS('scripts/cleaned_index_dataset.rds')
+index <- read_csv('scripts/index/index.csv')
 
 library(tidyverse)
 
-lm_model <- lm(r_HE_nat ~ in_largest_metro, data = index)
+lm_model <- lm(r_HE_nat ~ in100, data = index)
 summary(lm_model)
 ```
 
 ```{r}
 library(ggplot2)
 
-ggplot(index, aes(x = in_metromicro_not_in_100)) +
+ggplot(index, aes(x = in100)) +
   geom_bar() +
   labs(
-    title = "Distribution of in_metromicro_not_in_100",
-    x = "In Metro/Micro but Not in 100",
+    title = "Distribution of in100",
+    x = "in100",
     y = "Frequency"
   ) +
   theme_minimal()

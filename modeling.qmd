@@ -5,7 +5,7 @@ library(readr)
 library(dplyr)
 library(tidyr)
 
-cleaned_data <- read_rds('scripts/cleaned_data.rds')
+cleaned_data <- read_rds('dataset/cleaned_data.rds')
 
 unique_states <- unique(cleaned_data$state_usps)
 length(unique_states)
@@ -49,6 +49,57 @@ ggplot(college_data_summarized, aes(x = race, y = average_college_enrollment, fi
        fill = "Race") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+
+```{r}
+library(dplyr)
+library(tidyr)
+
+cleaned_data <- read_rds('scripts/cleaned_data.rds')
+cleaned_data
+
+unique_states <- unique(cleaned_data$state_usps)
+length(unique_states)
+
+region_data <- data.frame(
+  state_usps = c(
+    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", 
+    "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", 
+    "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", 
+    "WI", "WY", "DC"
+  ),
+  region = c(
+    "South", "West", "West", "South", "West", "West", "Northeast", "Northeast", "South", "South", 
+    "West", "West", "Midwest", "Midwest", "Midwest", "Midwest", "South", "South", "Northeast", 
+    "Northeast", "Northeast", "Midwest", "Midwest", "South", "Midwest", "West", "Midwest", "Midwest", 
+    "West", "Northeast", "Northeast", "West", "South", "Midwest", "Midwest", "South", "Northeast", 
+    "South", "Midwest", "Northeast", "South", "Midwest", "South", "West", "West", "Northeast", "South",
+    "West", "Northeast", "Northeast", "Northeast"
+  )
+)
+
+
+# Merge region data with cleaned data
+cleaned_data <- cleaned_data %>%
+  left_join(region_data, by = "state_usps") %>%
+  mutate(total_population = rowSums(select(., aian:white))) %>%
+  mutate(across(aian:white, ~ ./total_population, .names = "prop_{.col}"))
+
+# Pivot the data to long format
+HE_data_long <- cleaned_data %>%
+  pivot_longer(cols = c(food_access, green_space_access, heat_exposure, health_insurance, ozone_conc, 
+                        airborne_microparticles, housing_vac_rate, walkability, waste_dump_sites, indus_pollutants),
+               names_to = "variable",
+               values_to = "value")
+
+# Fit a linear model
+lm_model <- lm(z_COI_nat ~ variable + race * region, data = HE_data_long)
+
+# Summarize the linear model
+summary(lm_model)
+
 
 ```
 

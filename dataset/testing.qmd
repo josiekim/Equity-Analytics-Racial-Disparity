@@ -30,8 +30,7 @@ cleaned_merged_df <- inner_join(merged_df, index, by = "geoid") |>
 
 ```{r}
 library(dplyr)
-cleaned_merged_df <- select(cleaned_merged_df, -year, -in100, -statefips, -stateusps, -pop, -year.y, -msaname15.y, -in100.y, -countyfips.y, -statefips.y, -pop.y)
-cleaned_merged_df <- select(cleaned_merged_df, -msaid15.y, -stateusps.y, -countyfips, -pop.x)
+cleaned_merged_df <- select(cleaned_merged_df, -year, -in100, -statefips, -stateusps, -pop, -year.y, -msaname15.y, -in100.y, -countyfips.y, -statefips.y, -pop.y, -msaid15.y, -stateusps.y, -countyfips, -pop.x, -msaid15, -msaname15)
 ```
 
 ```{r}
@@ -76,12 +75,15 @@ cleaned_merged_df <- cleaned_merged_df %>%
     single_household = SE_SINGLE
   )
 
-head(cleaned_merged_df)
 ```
+
+
 
 ```{r}
 na_rows_count <- sum(!complete.cases(cleaned_merged_df))
 cleaned_data <- na.omit(cleaned_merged_df)
+
+
 ```
 
 

@@ -1,0 +1,2 @@
+load("/Users/josephinekim/Downloads/ma415 lab0 clone/final-project-team12/dataset/cleaned_data.RData")
+read.RData("cleaned_data.RData")
