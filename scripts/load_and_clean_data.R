@@ -1,5 +1,10 @@
-source(
-  "scripts/load_and_clean_data.R",
-  echo = FALSE # Use echo=FALSE or omit it to avoid code output  
-)
+library(tidyverse)
 
+save(cleaned_data, file = here::here("dataset/cleaned_data.RData"))
+
+load("dataset/cleaned_data.RData")
+
+saveRDS(cleaned_data, file = "dataset/cleaned_data.rds")
+
+loaded_data <- readRDS(file = "dataset/cleaned_data.rds")
+print(ls())
