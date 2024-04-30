@@ -10,46 +10,71 @@ draft: false
 # Data Background
 
 ## Data Set 1: Child Opportunity Index
+
 Link: https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database
+The Child Opportunity Index 2.0 (COI 2.0) is a comprehensive tool developed in collaboration with the Kirwan Institute for the Study of Race and Ethnicity at Ohio State University, released in January 2020. It measures neighborhood-level resources and conditions essential for a child's healthy development across the United States. The COI is a composite index of child's neighborhood opportunity that contains data for every neighborhood (census tract) in the United States from every year for 2012 through 2021. It is comprised of 44 indicators in three domains (education, health and environment, and social and economic) and 14 sub-domains. COI 2.0 compiles data from state and federal sources. This comprehensive data collection process examines approximately 72,000 neighborhood conditions crucial for a child's well-being, including school quality, green space availability, air quality, and adult employment levels. The resulting Child Opportunity Score, ranging from 1 to 100, provides insight into each U.S. neighborhood and metro area's position in the national child opportunity landscape, aiming to spotlight disparities within the largest 100 U.S. metros. Particularly, it reveals significant racial inequities with implications for a child's health, education, and life expectancy.
 
-The Child Opportunity Index 2.0 (COI 2.0) is a comprehensive tool developed in collaboration with the Kirwan Institute for the Study of Race and Ethnicity at Ohio State University, released in January 2020. It measures neighborhood-level resources and conditions essential for children's healthy development across the United States. The COI is a composite index of children's neighborhood opportunity that contains data for every neighborhood (census tract) in the United States from every year for 2012 through 2021. It is comprised of 44 indicators in three domains (education, health and environment, and social and economic) and 14 subdomains. COI 2.0 compiles data from state and federal sources. This comprehensive data collection process examines approximately 72,000 neighborhood conditions crucial for children's well-being, including school quality, green space availability, air quality, and adult employment levels. The resulting Child Opportunity Score, ranging from 1 to 100, provides insight into each U.S. neighborhood and metro area's position in the national child opportunity landscape, aiming to spotlight disparities within the largest 100 U.S. metros. Particularly, it reveals significant racial inequities with implications for children's health, education, and life expectancy.
+### Simplified Data Dictionary
 
-```{r}
-library(png)
-img <- readPNG("images/hist of ed domain z scores.png")
-img
-```
 
 ## Data Set 2: Raw Indicator Values
 Link: https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/44ee1ea6-a3df-4af3-93b7-c4695d5ab6a6
  
-The component indicators data for COI 2.0 is a comprehensive collection of demographic data and raw indicator values from the American Community Survey (ACS) covering the years 2010 and 2015, correlating to the ACS 5-year data from 2008-12 and 2013-17 respectively. Most of the data points related to geographical and demographic information are structured to be similar to our original data set. Notably, this data set also includes raw numeric values for educational and socio-economic data such as college enrollment in nearby institutions (’ED_COLLEGE’) and poverty rate(’SE_POVRATE’).
+The component indicators data for COI 2.0 is a comprehensive collection of demographic data and raw indicator values from the American Community Survey (ACS) covering the years 2010 and 2015, correlating to the ACS 5-year data from 2008-12 and 2013-17 respectively. Most of the data points related to geographical and demographic information are structured to be similar to our original data set. Notably, this data set also includes raw numeric values for educational and socioeconomic data such as college enrollment in nearby institutions (’ED_COLLEGE’) and poverty rate(’SE_POVRATE’).
  
-This dataset serves as a critical tool for understanding demographic distributions and trends, which will aid our analysis of the Child Opportunity Index.
+This data set serves as a critical tool for understanding demographic distributions and trends, which will aid our analysis of the Child Opportunity Index.
 
 ## Data Set 3: Child Population Data
 Link: https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/44ee1ea6-a3df-4af3-93b7-c4695d5ab6a6
  
-The “Child population data - Number of children aged 0-17 years by race/ethnicity from the American Community Survey” uses Census data to describe the demographic of a micro regional area, including whether the area is one of the 100 largest metro areas in the U.S. The dataset includes the racial composition of the area broken down by proportions of children belonging to each race group.
+The “Child population data - Number of children aged 0-17 years by race/ethnicity from the American Community Survey” uses Census data to describe the demographic of a micro regional area, including whether the area is one of the 100 largest metro areas in the U.S. The data set includes the racial composition of the area broken down by proportions of children belonging to each race group.
  
-We will use this dataset to help inform our analysis of the strength of select indicators in computing the overall Child Opportunity Index.
+We will use this data set to help inform our analysis of the strength of select indicators in computing the overall Child Opportunity Index.
 
-To add more insight on the data, we will be using 3 different data files under the COI 2.0, which are the index data, child population data, and component indicators data respectively. There are 8 variables that are present in all 3 data sets, which, in essence, represent the geographical location of each metropolitan area. Some important variables to highlight in these datasets are the population of each race group per metro area, health insurance coverage, poverty rate, and median household income. We will keep a close eye on these features to see how they affect a child’s overall opportunity.
+To add more insight on the data, we will be using 3 different data files under the COI 2.0, which are the index data, child population data, and component indicators data respectively. There are 8 variables that are present in all 3 data sets, which, in essence, represent the geographical location of each metropolitan area. Some important variables to highlight in these data sets are the population of each race group per metro area, health insurance coverage, poverty rate, and median household income. We will keep a close eye on these features to see how they affect a child’s overall opportunity.
+
+```{r}
+library(png)
+cali <- readPNG("images/pop dist by race in cali.png")
+cali
+```
+```{r}
+ny <- readPNG("images/pop dist by race in ny.png")
+ny
+```
 
 ## Data Cleaning Process
 
-To clean our data set, we decided to remove columns "c5_ED_met", "c5_HE_met", "c5_SE_met", "c5_COI_met", "r_ED_met", "r_HE_met", "r_SE_met", "r_COI_met". These columns in particular contained majority empty cells and we discovered that they did not contribute much to the overall analyses of our data set. We added 3 dummy variables to indicate whether or not the census tract is within one of the 100 largest metro areas, within a micro/metro area that's not within one of the 100, and if it's not within a metro/micro area. If it it's True, the value in the column will be 1. 
-
-In the next step of our data cleaning process, we used `read.csv` to access our 3 data sets `childpop_race.csv`, `rawindicators.csv`, and `index.csv`. Then, in order to narrow the scope of our analysis, we used `filter(year != 2010)` to isolate data from the year 2010. We decided to merge all 3 data sets on `geoid` using `inner_join` since it was present in all 3 data sets. 
+In the first step of our data cleaning process, we used `read.csv` to access our 3 data sets `childpop_race.csv`, `rawindicators.csv`, and `index.csv`. Then, in order to narrow the scope of our analysis, we used `filter(year != 2010)` to isolate data from the year 2010. We decided to merge all 3 data sets on `geoid` using `inner_join` since it was present in all 3 data sets. 
 
 ```{r}
+childpop <- childpop |>
+  filter(year != 2010)
+indicators <- indicators |>
+  filter(year != 2010)
+index <- index |>
+  filter(year != 2010)
+
 merged_df <- inner_join(childpop, indicators, by = "geoid") |>
   distinct()
 cleaned_merged_df <- inner_join(merged_df, index, by = "geoid") |>
   distinct()
 ```
 
-Upon merging all 3 data sets, we had an abundance of duplicated columns. We selected the duplicated columns and placed a negative sign, `-`, before the column name to indicate it's being removed. Additionally, we renamed the columns using `rename()` to clearly show what the columns are representing. The original column names were difficult to interpret and we found ourselves referring to the data dictionary often. In the last step of our data cleaning process, we removed any null values in the data. Since these null values were sparse, we chose not to remove the columns themselves as we had done in the beginning. Instead, we removed the rows that contained the null values by counting and summing the null rows and then omitting them with `na.omit()`. We also grouped the different states (including Washington D.C.) by Northwest, Northeast, South, and West regions into a new data frame called `region_data`. Additionally, we grouped the different racial groups by state to get a total of the different race populations per state to better visualize the distribution of race populations per state.
+Upon merging all 3 data sets, we had an abundance of duplicated columns. We selected the duplicated columns and placed a negative sign, `-`, before the column name to indicate it's being removed. 
+
+```{r}
+cleaned_merged_df <- select(cleaned_merged_df, -year, -in100, -statefips, -stateusps, -pop, -year.y, -msaname15.y, -in100.y, -countyfips.y, -statefips.y, -pop.y, -msaid15.y, -stateusps.y, -countyfips, -pop.x, -msaid15, -msaname15)
+```
+
+Additionally, we renamed the columns using `rename()` to clearly show what the columns are representing. The original column names were difficult to interpret and we found ourselves referring to the data dictionary often. Certain variables, such as `z_COI_nat`, we decided to keep as is since changing the names to describe the data would make the column names long and repetitive. Instead, we decided to include a simplified version of the data dictionary in our `Data` page under `Data Set 1: Child Opportunity Index`.
+
+In the last step of our data cleaning process, we removed any null values in the data. We removed the rows that contained the null values by counting and summing the null rows and then omitting them with `na.omit()`. We also grouped the different states (including Washington D.C.) by Northwest, Northeast, South, and West regions into a new data frame called `region_data`. Additionally, we grouped the different racial groups by state to get a total of the different race populations per state to better visualize the distribution of race populations per state.
+
+```{r}
+na_rows_count <- sum(!complete.cases(cleaned_merged_df))
+cleaned_data <- na.omit(cleaned_merged_df)
+```
 
 ## Load Data
 
