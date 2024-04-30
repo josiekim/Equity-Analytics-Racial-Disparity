@@ -109,46 +109,7 @@ cleaned_data <- cleaned_data |>
 summary(cleaned_data)
 ```
 
-```{r}
-cleaned_data_long <- cleaned_data %>%
-  pivot_longer(
-    cols = -c(geoid, year, in100, msaid15, msaname15, county_fips, state_fips, state_usps,c5_HE_nat, c5_ED_nat, c5_SE_nat, c5_COI_nat, c5_ED_stt, c5_HE_stt, c5_SE_stt, c5_COI_stt),
-    names_to = "variable",
-    values_to = "value"
-  ) %>%
-  filter(is.finite(value))
-```
 
-```{r}
-ggplot(cleaned_data_long, aes(x = value)) +
-  geom_histogram(bins = 50, fill = "blue", color = "black") +  # Adjust bins as necessary
-  facet_wrap(~ variable, scales = "free") +  # Use scales = "free" if the variables have different ranges
-  theme_minimal() +
-  labs(title = "Histograms of Multiple Variables", x = "Value", y = "Count")
-```
-
-```{r}
-ggplot(cleaned_data, aes(x = z_ED_nat)) +
-  geom_histogram(bins = 18, fill = "blue", color = "black") +
-  theme_minimal() +
-  labs(x = "Natioanlly-Normed Education Domain Z-scores", y = "Frequency", title = "Histograms of Education Domain Z-scores")
-```
-```{r}
-race_by_state <- cleaned_data |>
-  select(state_usps, aian, api, black, hisp, other2, nonwhite, white)
-
-long_data <- race_by_state %>%
-  pivot_longer(
-    cols = -state_usps,  # This keeps 'State' as a separate column and pivots all other columns
-    names_to = "Race",
-    values_to = "Population"
-  )
-
-# Print the transformed data
-population_by_state_and_race <- long_data %>%
-  group_by(state_usps, Race) %>%
-  summarise(Total_Population = sum(Population), .groups = 'drop')
-```
 
 ```{r}
 california_data <-  population_by_state_and_race |>
