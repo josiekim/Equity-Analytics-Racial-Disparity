@@ -155,15 +155,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-makes-a-good-data-set" id="toc-what-makes-a-good-data-set" class="nav-link active" data-scroll-target="#what-makes-a-good-data-set">What makes a good data set?</a></li>
-  <li><a href="#where-to-keep-data" id="toc-where-to-keep-data" class="nav-link" data-scroll-target="#where-to-keep-data">Where to keep data?</a>
+  <li><a href="#data-background" id="toc-data-background" class="nav-link active" data-scroll-target="#data-background">Data Background</a>
   <ul class="collapse">
-  <li><a href="#sharing-your-data" id="toc-sharing-your-data" class="nav-link" data-scroll-target="#sharing-your-data">Sharing your data</a></li>
-  <li><a href="#load-and-clean-data-script" id="toc-load-and-clean-data-script" class="nav-link" data-scroll-target="#load-and-clean-data-script">Load and clean data script</a></li>
+  <li><a href="#data-set-1-child-opportunity-index" id="toc-data-set-1-child-opportunity-index" class="nav-link" data-scroll-target="#data-set-1-child-opportunity-index">Data Set 1: Child Opportunity Index</a></li>
+  <li><a href="#data-set-2-raw-indicator-values" id="toc-data-set-2-raw-indicator-values" class="nav-link" data-scroll-target="#data-set-2-raw-indicator-values">Data Set 2: Raw Indicator Values</a></li>
+  <li><a href="#data-set-3-child-population-data" id="toc-data-set-3-child-population-data" class="nav-link" data-scroll-target="#data-set-3-child-population-data">Data Set 3: Child Population Data</a></li>
+  <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data">Load Data</a></li>
+  <li><a href="#data-cleaning-process" id="toc-data-cleaning-process" class="nav-link" data-scroll-target="#data-cleaning-process">Data Cleaning Process</a></li>
   </ul></li>
-  <li><a href="#data-background" id="toc-data-background" class="nav-link" data-scroll-target="#data-background">Data Background</a></li>
-  <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning">Data Cleaning</a></li>
-  <li><a href="#rubric-on-this-page" id="toc-rubric-on-this-page" class="nav-link" data-scroll-target="#rubric-on-this-page">Rubric: On this page</a></li>
   </ul>
 </nav>
     </div>
@@ -195,39 +194,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p><img src="images/data-import-cheatsheet-thumbs.png" class="img-fluid"></p>
-<p>This comes from the file <code>data.qmd</code>.</p>
-<p>Your first steps in this project will be to find data to work on.</p>
-<p>I recommend trying to find data that interests you and that you are knowledgeable about. A bad example would be if you have no interest in video games but your data set is about video games. I also recommend finding data that is related to current events, social justice, and other areas that have an impact.</p>
-<p>Initially, you will study <em>one dataset</em> but later you will need to combine that data with another dataset. For this reason, I recommend finding data that has some date and/or location components. These types of data are conducive to interesting visualizations and analysis and you can also combine this data with other data that also has a date or location variable. Data from the census, weather data, economic data, are all relatively easy to combine with other data with time/location components.</p>
-<section id="what-makes-a-good-data-set" class="level2">
-<h2 class="anchored" data-anchor-id="what-makes-a-good-data-set">What makes a good data set?</h2>
-<ul>
-<li>Data you are interested in and care about.</li>
-<li>Data where there are a lot of potential questions that you can explore.</li>
-<li>A data set that isn’t completely cleaned already.</li>
-<li>Multiple sources for data that you can combine.</li>
-<li>Some type of time and/or location component.</li>
-</ul>
+<section id="data-background" class="level1">
+<h1>Data Background</h1>
+<section id="data-set-1-child-opportunity-index" class="level2">
+<h2 class="anchored" data-anchor-id="data-set-1-child-opportunity-index">Data Set 1: Child Opportunity Index</h2>
+<p>Link: https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database</p>
+<p>The Child Opportunity Index 2.0 (COI 2.0) is a comprehensive tool developed in collaboration with the Kirwan Institute for the Study of Race and Ethnicity at Ohio State University, released in January 2020. It measures neighborhood-level resources and conditions essential for children’s healthy development across the United States. The COI is a composite index of children’s neighborhood opportunity that contains data for every neighborhood (census tract) in the United States from every year for 2012 through 2021. It is comprised of 44 indicators in three domains (education, health and environment, and social and economic) and 14 subdomains. COI 2.0 compiles data from state and federal sources. This comprehensive data collection process examines approximately 72,000 neighborhood conditions crucial for children’s well-being, including school quality, green space availability, air quality, and adult employment levels. The resulting Child Opportunity Score, ranging from 1 to 100, provides insight into each U.S. neighborhood and metro area’s position in the national child opportunity landscape, aiming to spotlight disparities within the largest 100 U.S. metros. Particularly, it reveals significant racial inequities with implications for children’s health, education, and life expectancy.</p>
 </section>
-<section id="where-to-keep-data" class="level2">
-<h2 class="anchored" data-anchor-id="where-to-keep-data">Where to keep data?</h2>
-<p>Below 50mb: In <code>dataset</code> folder</p>
-<p>Above 50mb: In <code>dataset_ignore</code> folder. This folder will be ignored by <code>git</code> so you’ll have to manually sync these files across your team.</p>
-<section id="sharing-your-data" class="level3">
-<h3 class="anchored" data-anchor-id="sharing-your-data">Sharing your data</h3>
-<p>For small datasets (&lt;50mb), you can use the <code>dataset</code> folder that is tracked by github. Add the files just like you would any other file.</p>
-<p>If you create a folder named <code>data</code> this will cause problems.</p>
-<p>For larger datasets, you’ll need to create a new folder in the project root directory named <code>dataset-ignore</code>. This will be ignored by git (based off the <code>.gitignore</code> file in the project root directory) which will help you avoid issues with Github’s size limits. Your team will have to manually make sure the data files in <code>dataset-ignore</code> are synced across team members.</p>
-<p>Your <a href="./scripts/load_and_clean_data.R">load_and_clean_data.R</a> file is how you will load and clean your data. Here is a an example of a very simple one.</p>
+<section id="data-set-2-raw-indicator-values" class="level2">
+<h2 class="anchored" data-anchor-id="data-set-2-raw-indicator-values">Data Set 2: Raw Indicator Values</h2>
+<p>Link: https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/44ee1ea6-a3df-4af3-93b7-c4695d5ab6a6</p>
+<p>The component indicators data for COI 2.0 is a comprehensive collection of demographic data and raw indicator values from the American Community Survey (ACS) covering the years 2010 and 2015, correlating to the ACS 5-year data from 2008-12 and 2013-17 respectively. Most of the data points related to geographical and demographic information are structured to be similar to our original data set. Notably, this data set also includes raw numeric values for educational and socio-economic data such as college enrollment in nearby institutions (’ED_COLLEGE’) and poverty rate(’SE_POVRATE’).</p>
+<p>This dataset serves as a critical tool for understanding demographic distributions and trends, which will aid our analysis of the Child Opportunity Index.</p>
+</section>
+<section id="data-set-3-child-population-data" class="level2">
+<h2 class="anchored" data-anchor-id="data-set-3-child-population-data">Data Set 3: Child Population Data</h2>
+<p>Link: https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/44ee1ea6-a3df-4af3-93b7-c4695d5ab6a6</p>
+<p>The “Child population data - Number of children aged 0-17 years by race/ethnicity from the American Community Survey” uses Census data to describe the demographic of a micro regional area, including whether the area is one of the 100 largest metro areas in the U.S. The dataset includes the racial composition of the area broken down by proportions of children belonging to each race group.</p>
+<p>We will use this dataset to help inform our analysis of the strength of select indicators in computing the overall Child Opportunity Index.</p>
+<p>To add more insight on the data, we will be using 3 different data files under the COI 2.0, which are the index data, child population data, and component indicators data respectively. There are 8 variables that are present in all 3 data sets, which, in essence, represent the geographical location of each metropolitan area. Some important variables to highlight in these datasets are the population of each race group per metro area, health insurance coverage, poverty rate, and median household income. We will keep a close eye on these features to see how they affect a child’s overall opportunity.</p>
+</section>
+<section id="load-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-data">Load Data</h2>
+<p>In our <code>load_and_clean_data.R</code> file, the code snippet utilizes the <code>tidyverse</code> package to handle data manipulation and analysis tasks efficiently. It reads in a RData file named <code>cleaned_merged_dg.RData</code> located within the <code>datasets</code> directory using the <code>load()</code> function. The cleaned data is saved as an <code>.rds</code> file named <code>cleaned_merged_df.rds</code> in the <code>scripts</code> directory using the <code>saveRDS</code> function. This ensures that the cleaned data set can be easily accessed and shared for future analyses. Additionally, the <code>readRDS</code> function is used to read the saved <code>.rds</code> file, enabling the retrieval of the cleaned data set for further processing or exploration.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>here() starts at /Users/josephinekim/Downloads/ma415 lab0 clone/final-project-team12</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"scripts/load_and_clean_data.R"</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">echo =</span> <span class="cn">TRUE</span> <span class="co"># Use echo=FALSE or omit it to avoid code output  </span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"scripts/load_and_clean_data.R"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">echo =</span> <span class="cn">TRUE</span> <span class="co"># Use echo=FALSE or omit it to avoid code output  </span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 &gt; library(readr)
@@ -239,10 +233,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ✔ dplyr     1.1.4     ✔ purrr     1.0.2
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
 ✔ ggplot2   3.5.0     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.0</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
@@ -266,7 +258,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Use tidymodels_prefer() to resolve common conflicts.</code></pre>
+• Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -316,66 +308,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="load-and-clean-data-script" class="level3">
-<h3 class="anchored" data-anchor-id="load-and-clean-data-script">Load and clean data script</h3>
-<p>The idea behind this file is that someone coming to your website could largely replicate your analyses after running this script on the original data sets to clean them. This file might create a derivative data set that you then use for your subsequent analysis. Note that you don’t need to run this script from every post/page. Instead, you can load in the results of this script, which could be plain text files or <code>.RData</code> files. In your data page you’ll describe how these results were created. If you have a very large data set, you might save smaller data sets that you can use for exploration purposes. To link to this file, you can use <code>[cleaning script](/scripts/load_and_clean_data.R)</code> which appears as <a href="./scripts/load_and_clean_data.R">cleaning script</a>.</p>
-</section>
-</section>
-<section id="data-background" class="level2">
-<h2 class="anchored" data-anchor-id="data-background">Data Background</h2>
-<p>Link: https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database</p>
-<p>The Child Opportunity Index 2.0 (COI 2.0) is a comprehensive tool developed in collaboration with the Kirwan Institute for the Study of Race and Ethnicity at Ohio State University, released in January 2020. It measures neighborhood-level resources and conditions essential for children’s healthy development across the United States. The COI is a composite index of children’s neighborhood opportunity that contains data for every neighborhood (census tract) in the United States from every year for 2012 through 2021. It is comprised of 44 indicators in three domains (education, health and environment, and social and economic) and 14 subdomains. COI 2.0 compiles data from state and federal sources. This comprehensive data collection process examines approximately 72,000 neighborhood conditions crucial for children’s well-being, including school quality, green space availability, air quality, and adult employment levels. The resulting Child Opportunity Score, ranging from 1 to 100, provides insight into each U.S. neighborhood and metro area’s position in the national child opportunity landscape, aiming to spotlight disparities within the largest 100 U.S. metros. Particularly, it reveals significant racial inequities with implications for children’s health, education, and life expectancy.</p>
-<p>Link: https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/44ee1ea6-a3df-4af3-93b7-c4695d5ab6a6</p>
-<p>The component indicators data for COI 2.0 is a comprehensive collection of demographic data and raw indicator values from the American Community Survey (ACS) covering the years 2010 and 2015, correlating to the ACS 5-year data from 2008-12 and 2013-17 respectively. Most of the data points related to geographical and demographic information are structured to be similar to our original data set. Notably, this data set also includes raw numeric values for educational and socio-economic data such as college enrollment in nearby institutions (’ED_COLLEGE’) and poverty rate(’SE_POVRATE’).</p>
-<p>This dataset serves as a critical tool for understanding demographic distributions and trends, which will aid our analysis of the Child Opportunity Index.</p>
-<p>Link: https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/44ee1ea6-a3df-4af3-93b7-c4695d5ab6a6</p>
-<p>The “Child population data - Number of children aged 0-17 years by race/ethnicity from the American Community Survey” uses Census data to describe the demographic of a micro regional area, including whether the area is one of the 100 largest metro areas in the U.S. The dataset includes the racial composition of the area broken down by proportions of children belonging to each race group.</p>
-<p>We will use this dataset to help inform our analysis of the strength of select indicators in computing the overall Child Opportunity Index.</p>
-<p>To add more insight on the data, we will be using 3 different data files under the COI 2.0, which are the index data, child population data, and component indicators data respectively. There are 8 variables that are present in all 3 data sets, which, in essence, represent the geographical location of each metropolitan area. Some important variables to highlight in these datasets are the population of each race group per metro area, health insurance coverage, poverty rate, and median household income. We will keep a close eye on these features to see how they affect a child’s overall opportunity.</p>
-</section>
-<section id="data-cleaning" class="level2">
-<h2 class="anchored" data-anchor-id="data-cleaning">Data Cleaning</h2>
+<section id="data-cleaning-process" class="level2">
+<h2 class="anchored" data-anchor-id="data-cleaning-process">Data Cleaning Process</h2>
 <p>To clean our data set, we decided to remove columns “c5_ED_met”, “c5_HE_met”, “c5_SE_met”, “c5_COI_met”, “r_ED_met”, “r_HE_met”, “r_SE_met”, “r_COI_met”. These columns in particular contained majority empty cells and we discovered that they did not contribute much to the overall analyses of our data set. We added 3 dummy variables to indicate whether or not the census tract is within one of the 100 largest metro areas, within a micro/metro area that’s not within one of the 100, and if it’s not within a metro/micro area. If it it’s True, the value in the column will be 1.</p>
 <p>In the next step of our data cleaning process, we used <code>read.csv</code> to access our 3 data sets <code>childpop_race.csv</code>, <code>rawindicators.csv</code>, and <code>index.csv</code>. Then, in order to narrow the scope of our analysis, we used <code>filter(year != 2010)</code> to isolate data from the year 2010. We decided to merge all 3 data sets on <code>geoid</code> using <code>inner_join</code> since it was present in all 3 data sets.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>merged_df <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(childpop, indicators, <span class="at">by =</span> <span class="st">"geoid"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>cleaned_merged_df <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(merged_df, index, <span class="at">by =</span> <span class="st">"geoid"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>merged_df <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(childpop, indicators, <span class="at">by =</span> <span class="st">"geoid"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>cleaned_merged_df <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(merged_df, index, <span class="at">by =</span> <span class="st">"geoid"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Upon merging all 3 data sets, we had an abundance of duplicated columns. We selected the duplicated columns and placed a negative sign, <code>-</code>, before the column name to indicate it’s being removed. Additionally, we renamed the columns using <code>rename()</code> to clearly show what the columns are representing. The original column names were difficult to interpret and we found ourselves referring to the data dictionary often. In the last step of our data cleaning process, we removed any null values in the data. Since these null values were sparse, we chose not to remove the columns themselves as we had done in the beginning. Instead, we removed the rows that contained the null values by counting and summing the null rows and then omitting them with <code>na.omit()</code>. We also grouped the different states (including Washington D.C.) by Northwest, Northeast, South, and West regions into a new data frame called <code>region_data</code>. Additionally, we grouped the different racial groups by state to get a total of the different race populations per state to better visualize the distribution of race populations per state.</p>
-<p>In our <code>load_and_clean_data.R</code> file, the code snippet utilizes the <code>tidyverse</code> package to handle data manipulation and analysis tasks efficiently. It reads in a RData file named <code>cleaned_merged_dg.RData</code> located within the <code>datasets</code> directory using the <code>load()</code> function. The cleaned data is saved as an <code>.rds</code> file named <code>cleaned_merged_df.rds</code> in the <code>scripts</code> directory using the <code>saveRDS</code> function. This ensures that the cleaned data set can be easily accessed and shared for future analyses. Additionally, the <code>readRDS</code> function is used to read the saved <code>.rds</code> file, enabling the retrieval of the cleaned data set for further processing or exploration.</p>
 <hr>
+
+
 </section>
-<section id="rubric-on-this-page" class="level2">
-<h2 class="anchored" data-anchor-id="rubric-on-this-page">Rubric: On this page</h2>
-<p>You will</p>
-<ul>
-<li>Describe where/how to find data.
-<ul>
-<li>You must include a link to the original data source(s). Make sure to provide attribution to those who collected the data.</li>
-<li>Why was the data collected/curated? Who put it together? (This is important, if you don’t know why it was collected then that might not be a good dataset to look at.</li>
-</ul></li>
-<li>Describe the different data files used and what each variable means.
-<ul>
-<li>If you have many variables then only describe the most relevant ones and summarize the rest.</li>
-</ul></li>
-<li>Describe any cleaning you had to do for your data.
-<ul>
-<li>You <em>must</em> include a link to your <code>load_and_clean_data.R</code> file.</li>
-<li>Rename variables and recode factors to make data more clear.</li>
-<li>Also, describe any additional R packages you used outside of those covered in class.</li>
-<li>Describe and show code for how you combined multiple data files and any cleaning that was necessary for that.</li>
-<li>Some repetition of what you do in your <code>load_and_clean_data.R</code> file is fine and encouraged if it helps explain what you did.</li>
-</ul></li>
-<li>Organization, clarity, cleanliness of the page
-<ul>
-<li>Make sure to remove excessive warnings, use clean easy-to-read code (without side scrolling), organize with sections, use bullets and other organization tools, etc.</li>
-<li>This page should be self-contained.</li>
-</ul></li>
-</ul>
-
-
 </section>
 
 </main> <!-- /main -->
