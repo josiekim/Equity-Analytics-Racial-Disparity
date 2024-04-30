@@ -1,14 +1,12 @@
-library(tidyverse)
-
 library(readr)
 library(tidyverse)
 library(tidymodels)
 library(broom)
+library(dplyr)
 
 childpop <- read_csv('dataset/childpop_race.csv', show_col_types = FALSE)
 indicators <- read_csv('dataset/rawindicators.csv', show_col_types = FALSE)
 index <- read_csv('scripts/index/index.csv', show_col_types = FALSE)
-
 
 
 childpop <- childpop |>
@@ -21,19 +19,12 @@ index <- index |>
   filter(year != 2010)
 
 
-
-
 merged_df <- inner_join(childpop, indicators, by = "geoid") |>
   distinct()
 cleaned_merged_df <- inner_join(merged_df, index, by = "geoid") |>
   distinct()
 
-
-
-library(dplyr)
 cleaned_merged_df <- select(cleaned_merged_df, -year, -in100, -statefips, -stateusps, -pop, -year.y, -msaname15.y, -in100.y, -countyfips.y, -statefips.y, -pop.y, -msaid15.y, -stateusps.y, -countyfips, -pop.x, -msaid15, -msaname15)
-
-
 
 cleaned_merged_df <- cleaned_merged_df %>%
   rename(
@@ -75,9 +66,6 @@ cleaned_merged_df <- cleaned_merged_df %>%
     commute_dur = SE_JOBPROX,
     single_household = SE_SINGLE
   )
-
-
-
 
 
 na_rows_count <- sum(!complete.cases(cleaned_merged_df))
