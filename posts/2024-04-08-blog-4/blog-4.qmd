@@ -11,9 +11,9 @@ As a team, we have decided to get a more detailed explanation for the trend by e
 We've chosen bar plots to examine the relationship between our area variables (since they are dummy variables), as they effectively illustrate the frequency distribution of each category. Bar plots are particularly useful for comparing the occurrence of different categories, aiding in our understanding of the data's relationships. Additionally, we will conduct linear regressions for the variables to analyze the relationship between the dependent variable and one or more independent variables by fitting a linear equation to the observed data. For our response variable, we will look at the opportunity levels within the different domains. Our predictor variables will be the different areas (in100). 
 
 ```{r}
-index <- read_csv('scripts/index/index.csv')
-
 library(tidyverse)
+
+index <- read_csv('scripts/index/index.csv')
 
 lm_model <- lm(r_HE_nat ~ in100, data = index)
 summary(lm_model)
