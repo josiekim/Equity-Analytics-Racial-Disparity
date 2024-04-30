@@ -135,7 +135,7 @@ ggplot(cleaned_data, aes(x = z_ED_nat)) +
 ```
 ```{r}
 race_by_state <- cleaned_data |>
-  select(state_usps, aian, api, black, hisp, other, nonwhite, white)
+  select(state_usps, aian, api, black, hisp, other2, nonwhite, white)
 
 long_data <- race_by_state %>%
   pivot_longer(
@@ -336,7 +336,7 @@ z_COI_hist <- ggplot(cleaned_data, aes(x = z_COI_nat))+
 z_COI_hist
 ```
 ```{r}
-cleaned_data$total_population <- rowSums(cleaned_data[, c("aian", "api", "black", "hisp", "other", "nonwhite", "white")], na.rm = TRUE)
+cleaned_data$total_population <- rowSums(cleaned_data[, c("aian", "api", "black", "hisp", "other2", "nonwhite", "white")], na.rm = TRUE)
 
 ```
 
@@ -347,7 +347,7 @@ cleaned_data <- cleaned_data %>%
     prop_api = api / total_population,
     prop_black = black / total_population,
     prop_hisp = hisp / total_population,
-    prop_other2 = other / total_population,
+    prop_other2 = other2 / total_population,
     prop_nonwhite = nonwhite / total_population,
     prop_white = white / total_population
   )
