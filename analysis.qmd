@@ -7,18 +7,7 @@ draft: false
 
 ![](https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg)
 
-```{r}
-library(tidyverse)
-print(getwd())
-save(cleaned_data, file = here::here("dataset/cleaned_data.RData"))
 
-load("dataset/cleaned_data.RData")
-
-saveRDS(cleaned_data, file = "dataset/cleaned_data.rds")
-
-loaded_data <- readRDS(file = "dataset/cleaned_data.rds")
-print(ls())
-```
 
 ------------------------------------------------------------------------
 

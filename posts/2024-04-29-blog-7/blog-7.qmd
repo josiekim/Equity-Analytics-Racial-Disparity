@@ -10,33 +10,8 @@ Tentative Thesis: The opportunities available to children are determined by vari
 
 We have created 3 separate regression models, one for socioeconomic, health and environment, and education. These regression models show the t-statistics and p-values for all the response variables.
 
-```{r}
-summary(SE_lm_model)
-```
+We decided to base the statistical significance on the t-statistic since there is overlap with the p-values. It was easiest for us to determine the which response variable was most significant by looking at which absolute value was the highest. SE employment rate had a t-statistic of 166.206, HE health insurance had one of 86.873, and ED adult education attainment's was 106.482. We see that the t-statistics for employment rate, adult education attainment, and health insurance are the highest, which aligns with our thesis.
 
-```{r}
-summary(HE_lm_model)
-```
+Additionally, we created histograms of the residuals for each of the regression models to visualize their distributions. All 3 histograms show a normal distribution. These are tentative graphics that as of now, simply show the information. We plan on using ggpubr to improve the aesthetics of our graphs and make them easier to understand. Besides the overall looks of our graphics, we plan on writing analyses for each one to highlight the areas we want to focus on and to provide an explanation of the results and how it relates to the project. We were unable to upload the regression models and histograms, which is something we will fix for the future. 
 
-```{r}
-summary(ED_lm_model)
-```
-
-We decided to base the statistical significance on the t-statistic since there is overlap with the p-values. It was easiest for us to determine the which response variable was most significant by looking at which absolute value was the highest. We see that the t-statistics for employment rate, adult education attainment, and health insurance are the highest, which aligns with our thesis.
-
-Additionally, we created histograms of the residuals for each of the regression models to visualize their distributions.
-
-```{r}
-hist(resid(SE_lm_model))
-```
-
-```{r}
-hist(resid(ED_lm_model))
-```
-
-```{r}
-hist(resid(HE_lm_model))
-```
-
-These are tentative graphics that as of now, simply show the information. We plan on using ggpubr to improve the aesthetics of our graphs and make them easier to understand. Besides the overall looks of our graphics, we plan on writing analyses for each one to highlight the areas we want to focus on and to provide an explanation of the results and how it relates to the project. 
 
