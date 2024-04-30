@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Team 12</title>
+<title>MA [46]15 Final Project - TEAM 12</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -113,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Team 12</span>
+    <span class="navbar-title">MA [46]15 Final Project - TEAM 12</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -186,7 +186,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Learn how to get started at https://www.tidymodels.org/start/</code></pre>
+• Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -207,13 +207,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>merged_df <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(childpop, indicators, <span class="at">by =</span> <span class="st">"geoid"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>cleaned_merged_df <span class="ot">&lt;-</span> <span class="fu">merge</span>(merged_df, index, <span class="at">by =</span> <span class="st">"geoid"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>cleaned_merged_df <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(merged_df, index, <span class="at">by =</span> <span class="st">"geoid"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>cleaned_merged_df <span class="ot">&lt;-</span> <span class="fu">select</span>(cleaned_merged_df, <span class="sc">-</span>year, <span class="sc">-</span>in100, <span class="sc">-</span>statefips, <span class="sc">-</span>stateusps, <span class="sc">-</span>pop, <span class="sc">-</span>year.y, <span class="sc">-</span>msaname15.y, <span class="sc">-</span>in100.y, <span class="sc">-</span>countyfips.y, <span class="sc">-</span>statefips.y, <span class="sc">-</span>pop.y)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>cleaned_merged_df <span class="ot">&lt;-</span> <span class="fu">select</span>(cleaned_merged_df, <span class="sc">-</span>msaid15.y, <span class="sc">-</span>stateusps.y, <span class="sc">-</span>countyfips, <span class="sc">-</span>pop.x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>cleaned_merged_df <span class="ot">&lt;-</span> <span class="fu">select</span>(cleaned_merged_df, <span class="sc">-</span>year, <span class="sc">-</span>in100, <span class="sc">-</span>statefips, <span class="sc">-</span>stateusps, <span class="sc">-</span>pop, <span class="sc">-</span>year.y, <span class="sc">-</span>msaname15.y, <span class="sc">-</span>in100.y, <span class="sc">-</span>countyfips.y, <span class="sc">-</span>statefips.y, <span class="sc">-</span>pop.y, <span class="sc">-</span>msaid15.y, <span class="sc">-</span>stateusps.y, <span class="sc">-</span>countyfips, <span class="sc">-</span>pop.x, <span class="sc">-</span>msaid15, <span class="sc">-</span>msaname15)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cleaned_merged_df <span class="ot">&lt;-</span> cleaned_merged_df <span class="sc">%&gt;%</span></span>
@@ -255,99 +254,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">employ_rate =</span> SE_EMPRAT,</span>
 <span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">commute_dur =</span> SE_JOBPROX,</span>
 <span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">single_household =</span> SE_SINGLE</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cleaned_merged_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>        geoid year in100 msaid15                 msaname15 county_fips
-1 01001020100 2015     0   33860 Montgomery, AL Metro Area       01001
-2 01001020200 2015     0   33860 Montgomery, AL Metro Area       01001
-3 01001020300 2015     0   33860 Montgomery, AL Metro Area       01001
-4 01001020400 2015     0   33860 Montgomery, AL Metro Area       01001
-5 01001020500 2015     0   33860 Montgomery, AL Metro Area       01001
-6 01001020600 2015     0   33860 Montgomery, AL Metro Area       01001
-  state_fips state_usps aian api black hisp other2 nonwhite white total_pop
-1         01         AL    0  14    19   12     20       65   349       414
-2         01         AL    0  10   229    0     18      257   251       508
-3         01         AL    0   8   148  118    142      298   506       804
-4         01         AL    8   0    41  117    183      232   736       968
-5         01         AL    0  70   524    0    129      723  1805      2528
-6         01         AL    0   0   341   57     46      444   477       921
-  AP_enrollment adult_edu_attainment college_enrollment early_child_enrollment
-1     0.2529906             37.80779           31.92499                   62.1
-2     0.2532066             16.23465           31.57459                   77.3
-3     0.2532747             18.06092           31.21891                    0.0
-4     0.2527897             26.73200           30.54390                   34.9
-5     0.2522892             40.53619           29.85666                   23.1
-6     0.2507573             20.43460           32.33601                   59.1
-  HS_gradrate math_prof reading_prof school_pov teacher_exp edu_centers
-1    87.41454  233.7441     215.4449   54.11380    17.07942    2.389251
-2    87.39342  231.9201     214.9654   54.09007    17.36425    2.397895
-3    87.37681  232.4364     215.4660   54.01822    18.68667    2.451930
-4    87.14401  236.6971     218.1173   51.25320    19.66714    2.450665
-5    86.90522  245.4200     222.9707   45.61398    13.99862    2.496280
-6    87.58692  230.0174     210.7138   53.96965    19.21531    2.372596
-  high_quality_edu_centers food_access green_space_access heat_exposure
-1                        0    3.110570                4.0            86
-2                        0    7.890843               16.2            86
-3                        0    3.912397               15.7            86
-4                        0    1.017718               15.6            86
-5                        0    3.174833               26.8            86
-6                        0    5.178609               12.2            86
-  health_insurance ozone_conc airborne_microparticles housing_vac_rate
-1         89.60149   37.06781                11.25754         1.437909
-2         89.87119   37.10643                11.33507        10.820045
-3         92.89814   37.11310                11.38239        11.365211
-4         83.96764   37.15095                11.44297         9.845361
-5         92.77035   37.18769                11.48625         5.540540
-6         82.83055   37.09153                11.33438         8.479327
-  walkability waste_dump_sites indus_pollutants poverty_rate pub_assist_rate
-1    7.545476        -13.81551         7.015026    10.677506       12.068965
-2    8.675064        -13.81551         7.306938    22.413794       24.137930
-3    4.650221        -13.81551         7.464947    14.652881       12.900704
-4    7.361205        -13.81551         7.597814     2.296695        5.660378
-5    8.922011        -13.81551         7.586750    12.234859        8.798284
-6    5.671293        -13.81551         8.516923    13.643927       16.003063
-  home_ownership_rate high_skill_employ med_house_income employ_rate
-1            75.19894          38.47900            67826    82.98756
-2            61.94125          30.51643            41287    60.33966
-3            66.37998          27.86775            46806    71.55963
-4            79.64552          28.98864            55895    79.35403
-5            52.76586          48.84061            68143    80.88134
-6            77.18224          25.21994            44549    62.09801
-  commute_dur single_household in_largest_metro in_metromicro_not_in_100
-1   1.0526316         26.55602                0                        1
-2   0.9313155         47.47082                0                        1
-3   1.7663043         29.82456                0                        1
-4   8.5479450         20.99448                0                        1
-5   2.9145730         11.43791                0                        1
-6   3.2878909         29.30649                0                        1
-  not_in_metromicro     z_ED_nat     z_HE_nat    z_SE_nat    z_COI_nat
-1                 0  0.008931624  0.035614304  0.14665718  0.021866081
-2                 0 -0.003518241 -0.012027141 -0.16989946 -0.021478755
-3                 0 -0.024829099 -0.001860347  0.00892956 -0.001906350
-4                 0 -0.006423923 -0.001081532  0.11607502  0.012711395
-5                 0  0.010687605  0.017881226  0.18066937  0.024149157
-6                 0 -0.008309873 -0.014144079 -0.06299545 -0.009765792
-  c5_ED_nat c5_HE_nat c5_SE_nat c5_COI_nat r_ED_nat r_HE_nat r_SE_nat r_COI_nat
-1  Moderate      High      High       High       59       66       75        71
-2  Moderate       Low  Very Low        Low       53       23       18        23
-3       Low       Low  Moderate   Moderate       40       30       46        42
-4  Moderate       Low      High   Moderate       51       31       69        60
-5  Moderate  Moderate Very High       High       60       47       82        73
-6  Moderate       Low       Low        Low       50       22       33        34
-  c5_ED_stt c5_HE_stt c5_SE_stt c5_COI_stt r_ED_stt r_HE_stt r_SE_stt r_COI_stt
-1      High Very High Very High  Very High       71       92       83        84
-2      High       Low       Low        Low       64       39       26        32
-3  Moderate  Moderate  Moderate   Moderate       51       49       60        59
-4      High  Moderate      High       High       63       51       79        74
-5      High      High Very High  Very High       72       72       88        85
-6      High       Low  Moderate   Moderate       62       36       45        48</code></pre>
-</div>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>na_rows_count <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">complete.cases</span>(cleaned_merged_df))</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>cleaned_data <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(cleaned_merged_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>na_rows_count <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">complete.cases</span>(cleaned_merged_df))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>cleaned_data <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(cleaned_merged_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

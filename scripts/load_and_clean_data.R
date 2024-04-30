@@ -1,10 +1,96 @@
 library(tidyverse)
 
-load("scripts/cleaned_data.RData")
+library(readr)
+library(tidyverse)
+library(tidymodels)
+library(broom)
 
-saveRDS(cleaned_data, file = "scripts/cleaned_data.rds")
+childpop <- read_csv('dataset/childpop_race.csv', show_col_types = FALSE)
+indicators <- read_csv('dataset/rawindicators.csv', show_col_types = FALSE)
+index <- read_csv('scripts/index/index.csv', show_col_types = FALSE)
 
-loaded_data <- readRDS(file = "scripts/cleaned_data.rds")
 
 
+childpop <- childpop |>
+  filter(year != 2010)
+
+indicators <- indicators |>
+  filter(year != 2010)
+
+index <- index |>
+  filter(year != 2010)
+
+
+
+
+merged_df <- inner_join(childpop, indicators, by = "geoid") |>
+  distinct()
+cleaned_merged_df <- inner_join(merged_df, index, by = "geoid") |>
+  distinct()
+
+
+
+library(dplyr)
+cleaned_merged_df <- select(cleaned_merged_df, -year, -in100, -statefips, -stateusps, -pop, -year.y, -msaname15.y, -in100.y, -countyfips.y, -statefips.y, -pop.y, -msaid15.y, -stateusps.y, -countyfips, -pop.x, -msaid15, -msaname15)
+
+
+
+cleaned_merged_df <- cleaned_merged_df %>%
+  rename(
+    year = year.x,
+    in100 = in100.x,
+    msaid15 = msaid15.x,
+    msaname15 = msaname15.x,
+    county_fips = countyfips.x,
+    state_fips = statefips.x,
+    state_usps = stateusps.x,
+    total_pop = total,
+    AP_enrollment = ED_APENR,
+    adult_edu_attainment = ED_ATTAIN,
+    college_enrollment = ED_COLLEGE,
+    early_child_enrollment = ED_ECENROL,
+    HS_gradrate = ED_HSGRAD,
+    math_prof = ED_MATH,
+    reading_prof = ED_READING,
+    school_pov = ED_SCHPOV,
+    teacher_exp = ED_TEACHXP,
+    edu_centers = ED_PRXECE,
+    high_quality_edu_centers = ED_PRXHQECE,
+    food_access = HE_FOOD,
+    green_space_access = HE_GREEN,
+    heat_exposure = HE_HEAT,
+    health_insurance = HE_HLTHINS,
+    ozone_conc = HE_OZONE,
+    airborne_microparticles = HE_PM25,
+    housing_vac_rate = HE_VACANCY,
+    walkability = HE_WALK,
+    waste_dump_sites = HE_SUPRFND,
+    indus_pollutants = HE_RSEI,
+    poverty_rate = SE_POVRATE,
+    pub_assist_rate = SE_PUBLIC,
+    home_ownership_rate = SE_HOME,
+    high_skill_employ = SE_OCC,
+    med_house_income = SE_MHE,
+    employ_rate = SE_EMPRAT,
+    commute_dur = SE_JOBPROX,
+    single_household = SE_SINGLE
+  )
+
+
+
+
+
+na_rows_count <- sum(!complete.cases(cleaned_merged_df))
+cleaned_data <- na.omit(cleaned_merged_df)
+
+
+
+
+save(cleaned_data, file = here::here("dataset/cleaned_data.RData"))
+
+load("dataset/cleaned_data.RData")
+
+saveRDS(cleaned_data, file = "dataset/cleaned_data.rds")
+
+loaded_data <- readRDS(file = "dataset/cleaned_data.rds")
 
