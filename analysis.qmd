@@ -3,97 +3,134 @@ title: Analysis
 description: Here we provide a detailed analysis using more sophisticated statistics techniques.
 toc: true
 draft: false
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 ![](https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg)
 
-```{r}
-library(ggplot2)
-library(readr)
-library(dplyr)
-library(tidyr)
+We are interested in seeing how the distribution of z-scores varies
+across the United States. So we decided to split the cleaned data into
+regions rather than state by using the `case_when()` function.
+Organizing the data by region faciliates easier comparisons and provides
+a clearer understanding of the `` z_COI_nat` `` trends. We chose to
+create a bar graph of the weighted averages of the `z_COI_nat` data by
+region.
 
-cleaned_data <- readRDS('dataset/cleaned_data.rds')
+# Distribution of Average COI Z-Score by Region
 
-unique_states <- unique(cleaned_data$state_usps)
-length(unique_states)
+![](images/clipboard-1922571005.png)
 
-region_data <- data.frame(
-  state_usps = c(
-    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", 
-    "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", 
-    "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", 
-    "WI", "WY", "DC"
-  ),
-  region = c(
-    "South", "West", "West", "South", "West", "West", "Northeast", "Northeast", "South", "South", 
-    "West", "West", "Midwest", "Midwest", "Midwest", "Midwest", "South", "South", "Northeast", 
-    "Northeast", "Northeast", "Midwest", "Midwest", "South", "Midwest", "West", "Midwest", "Midwest", 
-    "West", "Northeast", "Northeast", "West", "South", "Midwest", "Midwest", "South", "Northeast", 
-    "South", "Midwest", "Northeast", "South", "Midwest", "South", "West", "West", "Northeast", "South",
-    "West", "Northeast", "Northeast", "Northeast"
-  )
-)
+Since the Northeast region has the highest mean z-score and South has
+the lowest, we are focusing our analysis on these 2 regions. By graphing
+histograms and various linear models, we are interested in seeing how
+social and economic, health and environment, and education factors
+impact COI scores.
 
-college_data <- cleaned_data %>%
-  left_join(region_data, by = "state_usps") %>%
-  select(aian, api, black, white, hisp, college_enrollment, state_usps, region)
+The graphics below display a set of histograms for key indicators of
+social and economic domain in the Northeast and South region. These
+indicators include employment rate, high skill employment, home
+ownership, housing vacancy rate, median house income, poverty rate, and
+public assistant rate.
 
-college_data_long <- tidyr::pivot_longer(college_data,
-                                         cols = c(aian, api, black, white, hisp),
-                                         names_to = "race",
-                                         names_repair = "unique")
+# Key Indicators of SE Factors in Northeast Region  
 
-college_data_summarized <- college_data_long %>%
-  group_by(region, race) %>%
-  summarize(average_college_enrollment = mean(value, na.rm = TRUE))
+![](images/clipboard-2311506481.png)
 
-ggplot(college_data_summarized, aes(x = race, y = average_college_enrollment, fill = race)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  facet_wrap(~region) +  # Facet by region
-  labs(title = "Average College Enrollment by Race and Region",
-       x = "Race",
-       y = "Average College Enrollment",
-       fill = "Race") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+Based on the distributions, high skill employment is the most normal.
+This indicates a moderate level of high skilled employment across the
+region. As a result, high skilled employment does not seem to have any
+major impact on the z-score since regions with disproportionately low
+levels of high skilled employment may experience higher levels of
+socioeconomic challenges. A skewed distribution such as employment rate
+stands out as a variable that heavily impacts the z-score. Employment
+rate is skewed to the left. The distribution suggests that a significant
+proportion of the population is employed and the Northeast region has a
+robust economy. This aligns with our Distribution by Average z-score by
+Region table which shows Northeast with the highest scores.
 
-```
+However, the concentration of employment could also suggest challenges
+for unemployed individuals, potentially leading to issues such as income
+inequality. This is evident in the right skewed distribution of the
+median housing income graph. It shows that most of the population earns
+a lower income. Despite the fact that poverty rate, housing vacancy
+rate, and public assistant rate are skewed right, this actually shows
+that most areas in the Northeast have low instances of these cases. This
+supports the idea that the Northeast is a socially and economically
+strong. To get a deeper understanding of which of these variables have
+the greatest impact on z-scores, we will be comparing the t-stats.
 
+T STATS
 
+# Key Indicators of SE Factors in South Region
+
+![](images/clipboard-516353454.png)
+
+The South region follows an identical pattern to that of the Northeast.
+
+# Scale Location Model for Weighted Average of Social and Economic Domain z-scores, Nationally Normed
+
+![](images/clipboard-1078409640.png)
+
+This chart is a scale-location plot, typically used in regression
+analysis to assess the assumption of homoscedasticity, which is that the
+variances of the residuals are constant across all levels of the
+independent variables. The y-axis represents the square root of the
+standardized residuals from a regression model, highlighting how
+residuals deviate from their mean. The x-axis is the predicted values
+obtained from the regression model.
+
+Ideally, the red line is flat and the residuals are evenly distributed
+around zero as it indicates constant variance. In this plot, the red
+line is fairly flat, suggesting that the variance of the residuals might
+be relatively constant. Most residuals are clustered near zero,
+especially around the center of the distribution of fitted values,
+meaning the model is making accurate predictions on average. However,
+the spread of residuals increases slightly for higher fitted values,
+suggesting potential issues with variance in these areas.
+
+The model shows a reasonable level of homoscedasticity as indicated by
+the mostly flat trend in the red line across the range of fitted values.
+However, the presence of potential outliers suggests that there may be a
+few instances that don't follow the typical pattern or levels of
+heteroscedasticity.
+
+The histograms below display the key indicators of the education domain
+in the Northeast and South region. These indicators include adult
+education attainment, AP enrollment, college enrollment, early child
+enrollment, early childhood education centers, high quality early
+childhood education centers, high school graduation rate, 3rd grade math
+proficiency, 3rd grade reading proficiency, and school poverty.
+
+# Key Indicators of ED Factors in Northeast Region 
+
+![](images/clipboard-764707238.png)
+
+# Key Indicators of ED Factors in South Region
+
+![](images/clipboard-2045926496.png)
+
+# Residuals vs Fitted for Weighted Average of Education Domain z-scores, Nationally Normed
+
+![](images/clipboard-1414671202.png)
+
+Finally, the distribution key indicators of the health and environment
+domain in the Northeast and South region are visualized. These
+indicators include airborne microparticles, food access, green space
+access, health insurance, extreme heat exposure, and industrial
+pollutants in air, water, or soil.
+
+# Key Indicators of HE Factors in Northeast Region  
+
+![](images/clipboard-2549282257.png)
+
+# Key Indicators of HE Factors in South Region
+
+![](images/clipboard-1486635107.png)
+
+# Histogram of Residulas Model for Weighted Average of Health and Environment Domain z-scores, Nationally Normed
 
 ------------------------------------------------------------------------
 
-## Rubric: On this page
-
-You will
-
--   Introduce what motivates your Data Analysis (DA)
-    -   Which variables and relationships are you most interested in?
-    -   What questions are you interested in answering?
-    # how does child's housing environment (food access, greenspace access, heat exposure, ozone concentration, airborne microparticles, walkability, waste dump sites, industrial pollutants) impact child's success (z_HE_nat)
-    # how does child's social environment (housing vacancy rate, poverty rate, public assistant rate, home ownership rate, high skill employment, med house income, employment rate) impact z_SE_nat
-    # how does child's education environment (AP enrollment, adult education attainment, college enrollment, early child enrollment, HS grad, math prof, reading prof, school pov, teacher_exp, edu centers, high quality edu centers) impact z_ED_RATE 
-   
-    -   Provide context for the rest of the page. This will include figures/tables that illustrate aspects of the data of your question.
--   Modeling and Inference
-    -   The page will include some kind of formal statistical model. This could be a linear regression, logistic regression, or another modeling framework.
-    # linear reg: poverty vs COI z score
-    # logistic reg NEEDED
-    
-    -   Explain the ideas and techniques you used to choose the predictors for your model. (Think about including interaction terms and other transformations of your variables.)
-    # can use intuition and info from visualizations
-    
-    -   Describe the results of your modelling and make sure to give a sense of the uncertainty in your estimates and conclusions.
--   Explain the flaws and limitations of your analysis
-    -   Are there some assumptions that you needed to make that might not hold? Is there other data that would help to answer your questions?
--   Clarity Figures
-    -   Are your figures/tables/results easy to read, informative, without problems like overplotting, hard-to-read labels, etc?
-    -   Each figure should provide a key insight. Too many figures or other data summaries can detract from this. (While not a hard limit, around 5 total figures is probably a good target.)
-    -   Default `lm` output and plots are typically not acceptable.
--   Clarity of Explanations
-    -   How well do you explain each figure/result?
-    -   Do you provide interpretations that suggest further analysis or explanations for observed phenomenon?
--   Organization and cleanliness.
-    -   Make sure to remove excessive warnings, hide most or all code, organize with sections or multiple pages, use bullets, etc.
-    -   This page should be self-contained, i.e. provide a description of the relevant data.
+![](images/clipboard-1224731097.png)

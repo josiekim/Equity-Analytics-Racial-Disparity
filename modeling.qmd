@@ -48,8 +48,87 @@ ggplot(college_data_summarized, aes(x = race, y = average_college_enrollment, fi
        y = "Average College Enrollment",
        fill = "Race") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_brewer(palette = "Pastel1")
 
 ```
 
+
+```{r}
+library(ggplot2)
+library(readr)
+library(dplyr)
+library(tidyr)
+
+cleaned_data <- readRDS('dataset/cleaned_data.rds')
+
+unique_states <- unique(cleaned_data$state_usps)
+length(unique_states)
+
+region_data <- data.frame(
+  state_usps = c(
+    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", 
+    "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", 
+    "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", 
+    "WI", "WY", "DC"
+  ),
+  region = c(
+    "South", "West", "West", "South", "West", "West", "Northeast", "Northeast", "South", "South", 
+    "West", "West", "Midwest", "Midwest", "Midwest", "Midwest", "South", "South", "Northeast", 
+    "Northeast", "Northeast", "Midwest", "Midwest", "South", "Midwest", "West", "Midwest", "Midwest", 
+    "West", "Northeast", "Northeast", "West", "South", "Midwest", "Midwest", "South", "Northeast", 
+    "South", "Midwest", "Northeast", "South", "Midwest", "South", "West", "West", "Northeast", "South",
+    "West", "Northeast", "Northeast", "Northeast"
+  )
+)
+
+poverty_rate_data <- cleaned_data %>%
+  left_join(region_data, by = "state_usps") %>%
+  select(aian, api, black, white, hisp, poverty_rate, state_usps, region)
+
+poverty_data_long <- tidyr::pivot_longer(poverty_rate_data,
+                                         cols = c(aian, api, black, white, hisp),
+                                         names_to = "race",
+                                         names_repair = "unique")
+
+poverty_data_summarized <- poverty_data_long %>%
+  group_by(region, race) %>%
+  summarize(average_poverty_rate = mean(poverty_rate, na.rm = TRUE))
+
+ggplot(poverty_data_summarized, aes(x = race, y = average_poverty_rate, fill = race)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~region) +  # Facet by region
+  labs(title = "Average Poverty Rate by Race and Region",
+       x = "Race",
+       y = "Average Poverty Rate") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_brewer(palette = "Pastel1")
+
+```
+```{r}
+cleaned_data <- cleaned_data |>
+  mutate(
+    Region = case_when(
+       state_usps %in% c("NJ", "NY", "NH", "PA", "VT", "MA", "ME", "CT", "RI") ~ "Northeast",
+       state_usps %in% c("IL", "IN", "OH", "WI", "MI", "ND", "MN", "SD", "IA", "NE", "KS", "MO") ~ "Midwest",
+       state_usps %in% c("DE", "MD", "DC", "VA", "WV", "KY", "TN", "TX", "NC", "SC", 
+                         "FL", "GA", "AL", "MS", "LA", "AK", "OK", "AR") ~ "South",
+       state_usps %in% c("CO", "ID", "MT", "NV", "UT", "WY", "AZ", "CA", "OR", "WA", "NM", "HI") ~ "West"
+    )
+  )
+
+COI_mean_scores <- cleaned_data %>%
+  group_by(Region) %>%
+  summarize(mean_z_COI_nat = mean(z_COI_nat, na.rm = TRUE))
+
+ggplot(COI_mean_scores, aes(x = Region, y = mean_z_COI_nat, fill = Region)) +
+  geom_col() +  # geom_col is used for bar plots with pre-summarized data
+  labs(title = "Average COI Z-Scores by Region",
+       x = "Region",
+       y = "Mean z_COI_nat Score") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Adjust x-axis labels for better readability
+
+```
 
