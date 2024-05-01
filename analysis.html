@@ -8,7 +8,7 @@
 
 <meta name="description" content="Here we provide a detailed analysis using more sophisticated statistics techniques.">
 
-<title>MA [46]15 Final Project - TEAM 12 - Analysis</title>
+<title>MA [46]15 Final Project — TEAM 12 - Analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -80,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">MA [46]15 Final Project - TEAM 12</span>
+    <span class="navbar-title">MA [46]15 Final Project — TEAM 12</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -121,7 +121,16 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#rubric-on-this-page" id="toc-rubric-on-this-page" class="nav-link active" data-scroll-target="#rubric-on-this-page">Rubric: On this page</a></li>
+  <li><a href="#distribution-of-average-coi-z-score-by-region" id="toc-distribution-of-average-coi-z-score-by-region" class="nav-link active" data-scroll-target="#distribution-of-average-coi-z-score-by-region">Distribution of Average COI Z-Score by Region</a></li>
+  <li><a href="#key-indicators-of-se-factors-in-northeast-region" id="toc-key-indicators-of-se-factors-in-northeast-region" class="nav-link" data-scroll-target="#key-indicators-of-se-factors-in-northeast-region">Key Indicators of SE Factors in Northeast Region</a></li>
+  <li><a href="#key-indicators-of-se-factors-in-south-region" id="toc-key-indicators-of-se-factors-in-south-region" class="nav-link" data-scroll-target="#key-indicators-of-se-factors-in-south-region">Key Indicators of SE Factors in South Region</a></li>
+  <li><a href="#scale-location-model-for-weighted-average-of-social-and-economic-domain-z-scores-nationally-normed" id="toc-scale-location-model-for-weighted-average-of-social-and-economic-domain-z-scores-nationally-normed" class="nav-link" data-scroll-target="#scale-location-model-for-weighted-average-of-social-and-economic-domain-z-scores-nationally-normed">Scale Location Model for Weighted Average of Social and Economic Domain z-scores, Nationally Normed</a></li>
+  <li><a href="#key-indicators-of-ed-factors-in-northeast-region" id="toc-key-indicators-of-ed-factors-in-northeast-region" class="nav-link" data-scroll-target="#key-indicators-of-ed-factors-in-northeast-region">Key Indicators of ED Factors in Northeast Region</a></li>
+  <li><a href="#key-indicators-of-ed-factors-in-south-region" id="toc-key-indicators-of-ed-factors-in-south-region" class="nav-link" data-scroll-target="#key-indicators-of-ed-factors-in-south-region">Key Indicators of ED Factors in South Region</a></li>
+  <li><a href="#residuals-vs-fitted-for-weighted-average-of-education-domain-z-scores-nationally-normed" id="toc-residuals-vs-fitted-for-weighted-average-of-education-domain-z-scores-nationally-normed" class="nav-link" data-scroll-target="#residuals-vs-fitted-for-weighted-average-of-education-domain-z-scores-nationally-normed">Residuals vs Fitted for Weighted Average of Education Domain z-scores, Nationally Normed</a></li>
+  <li><a href="#key-indicators-of-he-factors-in-northeast-region" id="toc-key-indicators-of-he-factors-in-northeast-region" class="nav-link" data-scroll-target="#key-indicators-of-he-factors-in-northeast-region">Key Indicators of HE Factors in Northeast Region</a></li>
+  <li><a href="#key-indicators-of-he-factors-in-south-region" id="toc-key-indicators-of-he-factors-in-south-region" class="nav-link" data-scroll-target="#key-indicators-of-he-factors-in-south-region">Key Indicators of HE Factors in South Region</a></li>
+  <li><a href="#histogram-of-residulas-model-for-weighted-average-of-health-and-environment-domain-z-scores-nationally-normed" id="toc-histogram-of-residulas-model-for-weighted-average-of-health-and-environment-domain-z-scores-nationally-normed" class="nav-link" data-scroll-target="#histogram-of-residulas-model-for-weighted-average-of-health-and-environment-domain-z-scores-nationally-normed">Histogram of Residulas Model for Weighted Average of Health and Environment Domain z-scores, Nationally Normed</a></li>
   </ul>
 </nav>
     </div>
@@ -153,44 +162,58 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg" class="img-fluid"></p>
+<p>We are interested in seeing how the distribution of z-scores varies across the United States. So we decided to split the cleaned data into regions rather than state by using the <code>case_when()</code> function. Organizing the data by region faciliates easier comparisons and provides a clearer understanding of the <code>z_COI_nat`</code> trends. We chose to create a bar graph of the weighted averages of the <code>z_COI_nat</code> data by region.</p>
+<section id="distribution-of-average-coi-z-score-by-region" class="level1">
+<h1>Distribution of Average COI Z-Score by Region</h1>
+<p><img src="images/clipboard-1922571005.png" class="img-fluid"></p>
+<p>Since the Northeast region has the highest mean z-score and South has the lowest, we are focusing our analysis on these 2 regions. By graphing histograms and various linear models, we are interested in seeing how social and economic, health and environment, and education factors impact COI scores.</p>
+<p>The graphics below display a set of histograms for key indicators of social and economic domain in the Northeast and South region. These indicators include employment rate, high skill employment, home ownership, housing vacancy rate, median house income, poverty rate, and public assistant rate.</p>
+</section>
+<section id="key-indicators-of-se-factors-in-northeast-region" class="level1">
+<h1>Key Indicators of SE Factors in Northeast Region</h1>
+<p><img src="images/clipboard-2311506481.png" class="img-fluid"></p>
+<p>Based on the distributions, high skill employment is the most normal. This indicates a moderate level of high skilled employment across the region. As a result, high skilled employment does not seem to have any major impact on the z-score since regions with disproportionately low levels of high skilled employment may experience higher levels of socioeconomic challenges. A skewed distribution such as employment rate stands out as a variable that heavily impacts the z-score. Employment rate is skewed to the left. The distribution suggests that a significant proportion of the population is employed and the Northeast region has a robust economy. This aligns with our Distribution by Average z-score by Region table which shows Northeast with the highest scores.</p>
+<p>However, the concentration of employment could also suggest challenges for unemployed individuals, potentially leading to issues such as income inequality. This is evident in the right skewed distribution of the median housing income graph. It shows that most of the population earns a lower income. Despite the fact that poverty rate, housing vacancy rate, and public assistant rate are skewed right, this actually shows that most areas in the Northeast have low instances of these cases. This supports the idea that the Northeast is a socially and economically strong. To get a deeper understanding of which of these variables have the greatest impact on z-scores, we will be comparing the t-stats.</p>
+<p>T STATS</p>
+</section>
+<section id="key-indicators-of-se-factors-in-south-region" class="level1">
+<h1>Key Indicators of SE Factors in South Region</h1>
+<p><img src="images/clipboard-516353454.png" class="img-fluid"></p>
+<p>The South region follows an identical pattern to that of the Northeast.</p>
+</section>
+<section id="scale-location-model-for-weighted-average-of-social-and-economic-domain-z-scores-nationally-normed" class="level1">
+<h1>Scale Location Model for Weighted Average of Social and Economic Domain z-scores, Nationally Normed</h1>
+<p><img src="images/clipboard-1078409640.png" class="img-fluid"></p>
+<p>This chart is a scale-location plot, typically used in regression analysis to assess the assumption of homoscedasticity, which is that the variances of the residuals are constant across all levels of the independent variables. The y-axis represents the square root of the standardized residuals from a regression model, highlighting how residuals deviate from their mean. The x-axis is the predicted values obtained from the regression model.</p>
+<p>Ideally, the red line is flat and the residuals are evenly distributed around zero as it indicates constant variance. In this plot, the red line is fairly flat, suggesting that the variance of the residuals might be relatively constant. Most residuals are clustered near zero, especially around the center of the distribution of fitted values, meaning the model is making accurate predictions on average. However, the spread of residuals increases slightly for higher fitted values, suggesting potential issues with variance in these areas.</p>
+<p>The model shows a reasonable level of homoscedasticity as indicated by the mostly flat trend in the red line across the range of fitted values. However, the presence of potential outliers suggests that there may be a few instances that don’t follow the typical pattern or levels of heteroscedasticity.</p>
+<p>The histograms below display the key indicators of the education domain in the Northeast and South region. These indicators include adult education attainment, AP enrollment, college enrollment, early child enrollment, early childhood education centers, high quality early childhood education centers, high school graduation rate, 3rd grade math proficiency, 3rd grade reading proficiency, and school poverty.</p>
+</section>
+<section id="key-indicators-of-ed-factors-in-northeast-region" class="level1">
+<h1>Key Indicators of ED Factors in Northeast Region</h1>
+<p><img src="images/clipboard-764707238.png" class="img-fluid"></p>
+</section>
+<section id="key-indicators-of-ed-factors-in-south-region" class="level1">
+<h1>Key Indicators of ED Factors in South Region</h1>
+<p><img src="images/clipboard-2045926496.png" class="img-fluid"></p>
+</section>
+<section id="residuals-vs-fitted-for-weighted-average-of-education-domain-z-scores-nationally-normed" class="level1">
+<h1>Residuals vs Fitted for Weighted Average of Education Domain z-scores, Nationally Normed</h1>
+<p><img src="images/clipboard-1414671202.png" class="img-fluid"></p>
+<p>Finally, the distribution key indicators of the health and environment domain in the Northeast and South region are visualized. These indicators include airborne microparticles, food access, green space access, health insurance, extreme heat exposure, and industrial pollutants in air, water, or soil.</p>
+</section>
+<section id="key-indicators-of-he-factors-in-northeast-region" class="level1">
+<h1>Key Indicators of HE Factors in Northeast Region</h1>
+<p><img src="images/clipboard-2549282257.png" class="img-fluid"></p>
+</section>
+<section id="key-indicators-of-he-factors-in-south-region" class="level1">
+<h1>Key Indicators of HE Factors in South Region</h1>
+<p><img src="images/clipboard-1486635107.png" class="img-fluid"></p>
+</section>
+<section id="histogram-of-residulas-model-for-weighted-average-of-health-and-environment-domain-z-scores-nationally-normed" class="level1">
+<h1>Histogram of Residulas Model for Weighted Average of Health and Environment Domain z-scores, Nationally Normed</h1>
 <hr>
-<section id="rubric-on-this-page" class="level2">
-<h2 class="anchored" data-anchor-id="rubric-on-this-page">Rubric: On this page</h2>
-<p>You will</p>
-<ul>
-<li>Introduce what motivates your Data Analysis (DA)
-<ul>
-<li><p>Which variables and relationships are you most interested in?</p></li>
-<li><p>What questions are you interested in answering? # how does child’s housing environment (food access, greenspace access, heat exposure, ozone concentration, airborne microparticles, walkability, waste dump sites, industrial pollutants) impact child’s success (z_HE_nat) # how does child’s social environment (housing vacancy rate, poverty rate, public assistant rate, home ownership rate, high skill employment, med house income, employment rate) impact z_SE_nat # how does child’s education environment (AP enrollment, adult education attainment, college enrollment, early child enrollment, HS grad, math prof, reading prof, school pov, teacher_exp, edu centers, high quality edu centers) impact z_ED_RATE</p></li>
-<li><p>Provide context for the rest of the page. This will include figures/tables that illustrate aspects of the data of your question.</p></li>
-</ul></li>
-<li>Modeling and Inference
-<ul>
-<li><p>The page will include some kind of formal statistical model. This could be a linear regression, logistic regression, or another modeling framework. # linear reg: poverty vs COI z score # logistic reg NEEDED</p></li>
-<li><p>Explain the ideas and techniques you used to choose the predictors for your model. (Think about including interaction terms and other transformations of your variables.) # can use intuition and info from visualizations</p></li>
-<li><p>Describe the results of your modelling and make sure to give a sense of the uncertainty in your estimates and conclusions.</p></li>
-</ul></li>
-<li>Explain the flaws and limitations of your analysis
-<ul>
-<li>Are there some assumptions that you needed to make that might not hold? Is there other data that would help to answer your questions?</li>
-</ul></li>
-<li>Clarity Figures
-<ul>
-<li>Are your figures/tables/results easy to read, informative, without problems like overplotting, hard-to-read labels, etc?</li>
-<li>Each figure should provide a key insight. Too many figures or other data summaries can detract from this. (While not a hard limit, around 5 total figures is probably a good target.)</li>
-<li>Default <code>lm</code> output and plots are typically not acceptable.</li>
-</ul></li>
-<li>Clarity of Explanations
-<ul>
-<li>How well do you explain each figure/result?</li>
-<li>Do you provide interpretations that suggest further analysis or explanations for observed phenomenon?</li>
-</ul></li>
-<li>Organization and cleanliness.
-<ul>
-<li>Make sure to remove excessive warnings, hide most or all code, organize with sections or multiple pages, use bullets, etc.</li>
-<li>This page should be self-contained, i.e.&nbsp;provide a description of the relevant data.</li>
-</ul></li>
-</ul>
+<p><img src="images/clipboard-1224731097.png" class="img-fluid"></p>
 
 
 </section>
