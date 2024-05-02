@@ -14,7 +14,7 @@ editor:
 
 ## Data Set 1: Child Opportunity Index
 
-The [Child Opportunity Index 2.0] (https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database) (COI 2.0) is a comprehensive tool developed in collaboration with the Kirwan Institute for the Study of Race and Ethnicity at Ohio State University, released in January 2020.
+The [Child Opportunity Index 2.0](https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database) (COI 2.0) is a comprehensive tool developed in collaboration with the Kirwan Institute for the Study of Race and Ethnicity at Ohio State University, released in January 2020.
 It measures neighborhood-level resources and conditions essential for a
 child's healthy development across the United States. The COI is a
 composite index of child's neighborhood opportunity that contains data
@@ -64,10 +64,7 @@ Opportunity Index.
 
 ## Data Set 3: Child Population Data
 
-
-The [“Child population data - Number of children aged 0-17 years by
-race/ethnicity from the American Community Survey”](https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/44ee1ea6-a3df-4af3-93b7-c4695d5ab6a6) uses Census data to
-describe the demographic of a micro regional area, including whether the
+The "[Child population data](https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/44ee1ea6-a3df-4af3-93b7-c4695d5ab6a6) - Number of children aged 0-17 years by race/ethnicity from the American Community Survey" uses Census data to describe the demographic of a micro regional area, including whether the
 area is one of the 100 largest metro areas in the U.S. The data set
 includes the racial composition of the area broken down by proportions
 of children belonging to each race group.
