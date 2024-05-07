@@ -197,12 +197,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><img src="images/data-import-cheatsheet-thumbs.png" class="img-fluid"></p>
+<p><img src="images/data_page_thumbnail.png" class="img-fluid"></p>
 <section id="data-background" class="level1">
 <h1>Data Background</h1>
 <section id="data-set-1-child-opportunity-index" class="level2">
 <h2 class="anchored" data-anchor-id="data-set-1-child-opportunity-index">Data Set 1: Child Opportunity Index</h2>
-<p>Link: https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database The Child Opportunity Index 2.0 (COI 2.0) is a comprehensive tool developed in collaboration with the Kirwan Institute for the Study of Race and Ethnicity at Ohio State University, released in January 2020. It measures neighborhood-level resources and conditions essential for a child’s healthy development across the United States. The COI is a composite index of child’s neighborhood opportunity that contains data for every neighborhood (census tract) in the United States from every year for 2012 through 2021. It is comprised of 44 indicators in three domains (education, health and environment, and social and economic) and 14 sub-domains. COI 2.0 compiles data from state and federal sources. This comprehensive data collection process examines approximately 72,000 neighborhood conditions crucial for a child’s well-being, including school quality, green space availability, air quality, and adult employment levels. The resulting Child Opportunity Score, ranging from 1 to 100, provides insight into each U.S. neighborhood and metro area’s position in the national child opportunity landscape, aiming to spotlight disparities within the largest 100 U.S. metros. Particularly, it reveals significant racial inequities with implications for a child’s health, education, and life expectancy.</p>
+<p>The <a href="https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database">Child Opportunity Index 2.0</a> (COI 2.0) is a comprehensive tool developed in collaboration with the Kirwan Institute for the Study of Race and Ethnicity at Ohio State University, released in January 2020. It measures neighborhood-level resources and conditions essential for a child’s healthy development across the United States. The COI is a composite index of child’s neighborhood opportunity that contains data for every neighborhood (census tract) in the United States from every year for 2012 through 2021. It is comprised of 44 indicators in three domains (education, health and environment, and social and economic) and 14 sub-domains. COI 2.0 compiles data from state and federal sources. This comprehensive data collection process examines approximately 72,000 neighborhood conditions crucial for a child’s well-being, including school quality, green space availability, air quality, and adult employment levels. The resulting Child Opportunity Score, ranging from 1 to 100, provides insight into each U.S. neighborhood and metro area’s position in the national child opportunity landscape, aiming to spotlight disparities within the largest 100 U.S. metros. Particularly, it reveals significant racial inequities with implications for a child’s health, education, and life expectancy.</p>
 <section id="simplified-data-dictionary" class="level3">
 <h3 class="anchored" data-anchor-id="simplified-data-dictionary">Simplified Data Dictionary</h3>
 <table class="table">
@@ -212,7 +212,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </colgroup>
 <thead>
 <tr class="header">
-<th>Variable</th>
+<th>Abbreviation</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -263,14 +263,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data-set-2-raw-indicator-values" class="level2">
 <h2 class="anchored" data-anchor-id="data-set-2-raw-indicator-values">Data Set 2: Raw Indicator Values</h2>
-<p>Link: https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/44ee1ea6-a3df-4af3-93b7-c4695d5ab6a6</p>
-<p>The component indicators data for COI 2.0 is a comprehensive collection of demographic data and raw indicator values from the American Community Survey (ACS) covering the years 2010 and 2015, correlating to the ACS 5-year data from 2008-12 and 2013-17 respectively. Most of the data points related to geographical and demographic information are structured to be similar to our original data set. Notably, this data set also includes raw numeric values for educational and socioeconomic data such as college enrollment in nearby institutions (’ED_COLLEGE’) and poverty rate(’SE_POVRATE’).</p>
+<p>The <a href="https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/44ee1ea6-a3df-4af3-93b7-c4695d5ab6a6">component indicators data</a> for COI 2.0 is a comprehensive collection of demographic data and raw indicator values from the American Community Survey (ACS) covering the years 2010 and 2015, correlating to the ACS 5-year data from 2008-12 and 2013-17 respectively. Most of the data points related to geographical and demographic information are structured to be similar to our original data set. Notably, this data set also includes raw numeric values for educational and socioeconomic data such as college enrollment in nearby institutions (’ED_COLLEGE’) and poverty rate(’SE_POVRATE’).</p>
 <p>This data set serves as a critical tool for understanding demographic distributions and trends, which will aid our analysis of the Child Opportunity Index.</p>
 </section>
 <section id="data-set-3-child-population-data" class="level2">
 <h2 class="anchored" data-anchor-id="data-set-3-child-population-data">Data Set 3: Child Population Data</h2>
-<p>Link: https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/44ee1ea6-a3df-4af3-93b7-c4695d5ab6a6</p>
-<p>The “Child population data - Number of children aged 0-17 years by race/ethnicity from the American Community Survey” uses Census data to describe the demographic of a micro regional area, including whether the area is one of the 100 largest metro areas in the U.S. The data set includes the racial composition of the area broken down by proportions of children belonging to each race group.</p>
+<p>The “<a href="https://data.diversitydatakids.org/dataset/coi20-child-opportunity-index-2-0-database/resource/44ee1ea6-a3df-4af3-93b7-c4695d5ab6a6">Child population data</a> - Number of children aged 0-17 years by race/ethnicity from the American Community Survey” uses Census data to describe the demographic of a micro regional area, including whether the area is one of the 100 largest metro areas in the U.S. The data set includes the racial composition of the area broken down by proportions of children belonging to each race group.</p>
 <p>We will use this data set to help inform our analysis of the strength of select indicators in computing the overall Child Opportunity Index.</p>
 <p>To add more insight on the data, we will be using 3 different data files under the COI 2.0, which are the index data, child population data, and component indicators data respectively. There are 8 variables that are present in all 3 data sets, which, in essence, represent the geographical location of each metropolitan area. Some important variables to highlight in these data sets are the population of each race group per metro area, health insurance coverage, poverty rate, and median household income. We will keep a close eye on these features to see how they affect a child’s overall opportunity.</p>
 <p>Below, we created a graphics with the variable <code>college_enrollment</code> to show the distribution across race and region.</p>
@@ -314,7 +312,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Use tidymodels_prefer() to resolve common conflicts.</code></pre>
+• Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>

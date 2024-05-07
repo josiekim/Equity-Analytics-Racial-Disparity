@@ -132,7 +132,8 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#key-indicators-of-ed-factors-in-northeast-region" id="toc-key-indicators-of-ed-factors-in-northeast-region" class="nav-link" data-scroll-target="#key-indicators-of-ed-factors-in-northeast-region">Key Indicators of ED Factors in Northeast Region</a></li>
   <li><a href="#key-indicators-of-ed-factors-in-south-region" id="toc-key-indicators-of-ed-factors-in-south-region" class="nav-link" data-scroll-target="#key-indicators-of-ed-factors-in-south-region"><img src="images/clipboard-764707238.png" class="img-fluid">Key Indicators of ED Factors in South Region</a></li>
-  <li><a href="#residuals-vs-fitted-for-weighted-average-of-education-domain-z-scores-nationally-normed" id="toc-residuals-vs-fitted-for-weighted-average-of-education-domain-z-scores-nationally-normed" class="nav-link" data-scroll-target="#residuals-vs-fitted-for-weighted-average-of-education-domain-z-scores-nationally-normed"><img src="images/clipboard-123417509.png" class="img-fluid">Residuals vs Fitted for Weighted Average of Education Domain z-scores, Nationally Normed</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><img src="images/clipboard-123417509.png" class="img-fluid"></a></li>
+  <li><a href="#residuals-vs-fitted-for-weighted-average-of-education-domain-z-scores-nationally-normed" id="toc-residuals-vs-fitted-for-weighted-average-of-education-domain-z-scores-nationally-normed" class="nav-link" data-scroll-target="#residuals-vs-fitted-for-weighted-average-of-education-domain-z-scores-nationally-normed">Residuals vs Fitted for Weighted Average of Education Domain z-scores, Nationally Normed</a></li>
   </ul></li>
   <li><a href="#health-and-environment-factors" id="toc-health-and-environment-factors" class="nav-link" data-scroll-target="#health-and-environment-factors">Health and Environment Factors</a>
   <ul class="collapse">
@@ -170,13 +171,12 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg" class="img-fluid"></p>
-<p>We are interested in seeing how the distribution of z-scores varies across the United States. So we decided to split the cleaned data into regions rather than state by using the <code>case_when()</code> function. Organizing the data by region faciliates easier comparisons and provides a clearer understanding of the <code>z_COI_nat`</code> trends. We chose to create a bar graph of the weighted averages of the <code>z_COI_nat</code> data by region.</p>
+<p><img src="images/clipboard-2562157356.png" class="img-fluid" width="702"></p>
+<p>We are interested in seeing how the distribution of z-scores varies across the United States. So we decided to split the cleaned data into regions rather than state by using the <code>case_when()</code> function. Organizing the data by region facilitates easier comparisons and provides a clearer understanding of the <code>z_COI_nat`</code> trends. We chose to create a bar graph of the weighted averages of the <code>z_COI_nat</code> data by region.</p>
 <section id="distribution-of-average-coi-z-score-by-region" class="level1">
 <h1>Distribution of Average COI Z-Score by Region</h1>
 <p><img src="images/clipboard-1922571005.png" class="img-fluid"></p>
 <p>Since the Northeast region has the highest mean z-score and South has the lowest, we are focusing our analysis on these 2 regions. By graphing histograms and various linear models, we are interested in seeing how social and economic, health and environment, and education factors impact COI scores.</p>
-<p>The graphics below display a set of histograms for key indicators of social and economic domain in the Northeast and South region. These indicators include employment rate, high skill employment, home ownership, housing vacancy rate, median house income, poverty rate, and public assistant rate.</p>
 </section>
 <section id="social-and-economic-factors" class="level1">
 <h1>Social and Economic Factors</h1>
@@ -208,9 +208,20 @@ ul.task-list li input[type="checkbox"] {
 <section id="key-indicators-of-ed-factors-in-south-region" class="level2">
 <h2 class="anchored" data-anchor-id="key-indicators-of-ed-factors-in-south-region"><img src="images/clipboard-764707238.png" class="img-fluid">Key Indicators of ED Factors in South Region</h2>
 </section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"><img src="images/clipboard-123417509.png" class="img-fluid"></h2>
+<p>Analyzing the histograms of key education indicators for the Northeast and South regions, several patterns emerge that align with broader socioeconomic trends and disparities between these areas.</p>
+<p>In the Northeast, histograms such as adult education attainment, college enrollment, and education centers suggest a robust educational infrastructure with moderate to high levels of engagement and attainment. For instance, the distribution of adult education attainment and college enrollment both exhibit a normal-like distribution, centered around moderate levels. This indicates a balanced distribution of educational levels, which likely contributes to a stronger economy and higher employment rates. The histogram for education centers, which is slightly skewed towards higher numbers, further supports the availability of educational resources. Such distributions align with a more robust economic environment where higher education levels and resource availability contribute positively to socioeconomic stability.</p>
+<p>Conversely, the South shows a different pattern. The histograms for the same indicators display significant right skewness, especially in math proficiency and school poverty rates. These distributions suggest lower levels of achievement and higher instances of poverty within schools. The histogram for adult education attainment in the South also shows a pronounced decline as educational levels increase, indicating fewer adults achieve higher education levels. These educational challenges are mirrored in socioeconomic conditions, as reflected by lower median household incomes and a higher percentage of school-associated poverty.</p>
+<p>Building on the examination of educational indicators using histographs, we conducted a regression analysis to determine which variables significantly impact the dependent variable (z_COI_nat). Among the independent variables, the variable <code>prop_nonwhite</code> exhibits the most significant impact with a coefficient of -0.02019, indicating that a unit increase in the proportion of the nonwhite population is associated with a decrease of approximately 0.02019 in the z_COI_nat, holding other variables constant. Similarly, the variable <code>school_pov</code> has a substantial negative coefficient of -0.0002494, suggesting that an increase in the school poverty rate by one unit leads to a decrease in z_COI_nat by roughly the same magnitude. In contrast, variables such as <code>HS_gradrate</code> and <code>adult_edu_attainment</code>, with coefficients of 0.0001139 and 0.0006891 respectively, show that higher levels of educational attainment correspond to positive increments in z_COI_nat.</p>
+</section>
 <section id="residuals-vs-fitted-for-weighted-average-of-education-domain-z-scores-nationally-normed" class="level2">
-<h2 class="anchored" data-anchor-id="residuals-vs-fitted-for-weighted-average-of-education-domain-z-scores-nationally-normed"><img src="images/clipboard-123417509.png" class="img-fluid">Residuals vs Fitted for Weighted Average of Education Domain z-scores, Nationally Normed</h2>
+<h2 class="anchored" data-anchor-id="residuals-vs-fitted-for-weighted-average-of-education-domain-z-scores-nationally-normed">Residuals vs Fitted for Weighted Average of Education Domain z-scores, Nationally Normed</h2>
 <p><img src="images/clipboard-1640644644.png" class="img-fluid"></p>
+<p>Residuals vs Fitted Plot: This plot helps to check the assumption of linearity and homoscedasticity in a regression model. Ideally, the residuals will be randomly distributed to indicate a good model fit. In this plot, the residuals appear to be somewhat randomly distributed, although there is a slight pattern indicating potential non-linearity or heteroscedasticity, where variances of residuals are not constant across the range of fitted values.</p>
+<p>Normal Q-Q Plot: This plot helps assess whether the residuals are normally distributed, a key assumption in linear regression. The points in this plot follow the theoretical line closely in the central part but deviate slightly in the tails, suggesting some light deviations from normality, particularly with extreme values, which could be outliers or influential points affecting the regression model.</p>
+<p>Scale-Location Plot: This plot also checks for homoscedasticity by plotting the square roots of the standardized residuals against the fitted values. If the variances of residuals are equal across all levels of the independent variables (homoscedasticity), the spread of residuals in this plot should be roughly constant across the range of fitted values. Here, the plot shows a cluster of points with a fairly consistent spread, suggesting that our model meets the assumption of equal variance reasonably well.</p>
+<p>Cook’s Distance Plot: This plot identifies influential cases that might overly influence the regression model. Points with a Cook’s distance greater than a critical value (commonly 1 or 0.5) are considered potentially influential. The plot here shows most data points have low Cook’s distances, indicating that no single observation overly influences the overall model fit.</p>
 </section>
 </section>
 <section id="health-and-environment-factors" class="level1">
@@ -226,6 +237,10 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="histogram-of-residuals-model-for-weighted-average-of-health-and-environment-domain-z-scores-nationally-normed"><img src="images/clipboard-2315424768.png" class="img-fluid">Histogram of Residuals Model for Weighted Average of Health and Environment Domain z-scores, Nationally Normed</h2>
 <hr>
 <p><img src="images/clipboard-3670613666.png" class="img-fluid"></p>
+<p>Residuals and fitted plot: The plot is used to exam the linearity and homoscedastity. Based on the graph presented, there is bascially no unequal variance. However, there are some of points that lies outside of the plot, suggesting possible outliers.</p>
+<p>Normal N-Q-Q plot: This plot is used to test the residuals, as we can see from the graph the N-Q-Q plot for the health and environment domain, most of the cloud point lies on the line, suggesting a normal distribution.</p>
+<p>Scale - location plot: Despite of some obvious outliers, the plot displays a constant spread across the plot, indicating homoscedasticity. We can see a horizenrtal line with equally random point, suggesting our model’s robustness.</p>
+<p>Cook Distance Plot: For detecting influential observations, we use cook distance plot, as we can see from the plot, the overall cook distance is small indicating that there is no potential strongly influential observations. At the same time, the plot prove the homoscedasticity and no obvious outliers for the health and environment domain.</p>
 
 
 </section>
