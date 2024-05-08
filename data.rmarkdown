@@ -9,6 +9,7 @@ editor:
     wrap: 72
 ---
 
+
 ![](images/data_page_thumbnail.png)
 
 # Data Background
@@ -113,6 +114,7 @@ access our 3 data sets `childpop_race.csv`, `rawindicators.csv`, and
 merge all 3 data sets on `geoid` using `inner_join` since it was present
 in all 3 data sets.
 
+
 ```{r}
 library(readr)
 library(tidyverse)
@@ -136,13 +138,16 @@ cleaned_merged_df <- inner_join(merged_df, index, by = "geoid") |>
   distinct()
 ```
 
+
 Upon merging all 3 data sets, we had an abundance of duplicated columns.
 We selected the duplicated columns and placed a negative sign, `-`,
 before the column name to indicate it's being removed.
 
+
 ```{r}
 cleaned_merged_df <- select(cleaned_merged_df, -year, -in100, -statefips, -stateusps, -pop, -year.y, -msaname15.y, -in100.y, -countyfips.y, -statefips.y, -pop.y, -msaid15.y, -stateusps.y, -countyfips, -pop.x, -msaid15, -msaname15)
 ```
+
 
 Additionally, we renamed the columns using `rename()` to clearly show
 what the columns are representing. The original column names were
@@ -163,10 +168,12 @@ racial groups by state to get a total of the different race populations
 per state to better visualize the distribution of race populations per
 state.
 
+
 ```{r}
 na_rows_count <- sum(!complete.cases(cleaned_merged_df))
 cleaned_data <- na.omit(cleaned_merged_df)
 ```
+
 
 ## Load Data
 
@@ -181,6 +188,7 @@ analyses. Additionally, the `readRDS` function is used to read the saved
 `.rds` file, enabling the retrieval of the cleaned data set for further
 processing or exploration.
 
+
 ```{r}
 source(
   "scripts/load_and_clean_data.R",
@@ -188,4 +196,6 @@ source(
 )
 ```
 
+
 ------------------------------------------------------------------------
+
