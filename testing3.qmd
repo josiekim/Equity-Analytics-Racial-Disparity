@@ -1,0 +1,823 @@
+```{r}
+library(readr)
+suppressPackageStartupMessages(library(tidyverse))
+library(tidymodels)
+library(broom)
+library(dplyr)
+library(tidyr)
+
+childpop <- read_csv('dataset/childpop_race.csv', show_col_types = FALSE)
+indicators <- read_csv('dataset/rawindicators.csv', show_col_types = FALSE)
+index <- read_csv('scripts/index/index.csv', show_col_types = FALSE)
+```
+
+```{r}
+#Removes all 2010 data
+childpop <- childpop |>
+  filter(year != 2010)
+
+indicators <- indicators |>
+  filter(year != 2010)
+
+index <- index |>
+  filter(year != 2010)
+```
+
+```{r}
+merged_df <- inner_join(childpop, indicators, by = "geoid") |>
+  distinct()
+cleaned_merged_df <- merge(merged_df, index, by = "geoid", all = TRUE, no.duplicates = TRUE) |>
+  distinct()
+
+head(cleaned_merged_df)
+```
+
+
+```{r}
+#Remove any duplicate columns
+cleaned_merged_df <- select(cleaned_merged_df, -year, -in100, -statefips, -stateusps, -pop, -year.y, -msaname15.y, -in100.y, -countyfips.y, -statefips.y, -pop.y, -msaid15.y, -stateusps.y, -countyfips, -pop.x, -msaid15, -msaname15)
+
+head(cleaned_merged_df)
+```
+
+```{r}
+#Renaming variable names for cleaner look
+cleaned_merged_df <- cleaned_merged_df %>%
+  rename(
+    year = year.x,
+    in100 = in100.x,
+    msaid15 = msaid15.x,
+    msaname15 = msaname15.x,
+    county_fips = countyfips.x,
+    state_fips = statefips.x,
+    state_usps = stateusps.x,
+    other = other2,
+    total_pop = total,
+    AP_enrollment = ED_APENR,
+    adult_edu_attainment = ED_ATTAIN,
+    college_enrollment = ED_COLLEGE,
+    early_child_enrollment = ED_ECENROL,
+    HS_gradrate = ED_HSGRAD,
+    math_prof = ED_MATH,
+    reading_prof = ED_READING,
+    school_pov = ED_SCHPOV,
+    teacher_exp = ED_TEACHXP,
+    edu_centers = ED_PRXECE,
+    high_qual_early_edu_centers = ED_PRXHQECE,
+    food_access = HE_FOOD,
+    green_space_access = HE_GREEN,
+    heat_exposure = HE_HEAT,
+    health_insurance = HE_HLTHINS,
+    ozone_conc = HE_OZONE,
+    airborne_microparticles = HE_PM25,
+    housing_vac_rate = HE_VACANCY,
+    walkability = HE_WALK,
+    waste_dump_sites = HE_SUPRFND,
+    indus_pollutants = HE_RSEI,
+    poverty_rate = SE_POVRATE,
+    pub_assist_rate = SE_PUBLIC,
+    home_ownership_rate = SE_HOME,
+    high_skill_employ = SE_OCC,
+    med_house_income = SE_MHE,
+    employ_rate = SE_EMPRAT,
+    commute_dur = SE_JOBPROX,
+    single_household = SE_SINGLE
+  )
+head(cleaned_merged_df)
+```
+
+
+```{r}
+# Using dplyr to remove any rows with NA values
+cleaned_data <- cleaned_merged_df %>%
+  filter(!if_any(everything(), is.na))
+```
+
+```{r}
+duplicated_columns <- names(cleaned_data)[duplicated(names(cleaned_data))]
+print(duplicated_columns)
+```
+
+```{r}
+cleaned_data <- cleaned_data |>
+  mutate(
+    Region = case_when(
+       state_usps %in% c("NJ", "NY", "NH", "PA", "VT", "MA", "ME", "CT", "RI") ~ "Northeast",
+       state_usps %in% c("IL", "IN", "OH", "WI", "MI", "ND", "MN", "SD", "IA", "NE", "KS", "MO") ~ "Midwest",
+       state_usps %in% c("DE", "MD", "DC", "VA", "WV", "KY", "TN", "TX", "NC", "SC", 
+                         "FL", "GA", "AL", "MS", "LA", "AK", "OK", "AR") ~ "South",
+       state_usps %in% c("CO", "ID", "MT", "NV", "UT", "WY", "AZ", "CA", "OR", "WA", "NM", "HI") ~ "West"
+    )
+  )
+```
+
+```{r}
+summary(cleaned_data)
+```
+
+```{r}
+COI_mean_scores <- cleaned_data %>%
+  group_by(Region) %>%
+  summarize(mean_z_COI_nat = mean(z_COI_nat, na.rm = TRUE))
+
+ggplot(COI_mean_scores, aes(x = Region, y = mean_z_COI_nat, fill = Region)) +
+  geom_col() +  # geom_col is used for bar plots with pre-summarized data
+  labs(title = "Mean COI z-Scores by Region",
+       x = "Region",
+       y = "Mean COI z-Scores") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+```{r}
+
+library(ggplot2)
+library(readr)
+library(dplyr)
+library(tidyr)
+
+college_data <- cleaned_data %>%
+  left_join(region_data, by = "state_usps") %>%
+  select(aian, api, black, white, hisp, college_enrollment, state_usps, region)
+
+college_data_long <- tidyr::pivot_longer(college_data,
+                                         cols = c(aian, api, black, white, hisp),
+                                         names_to = "race",
+                                         names_repair = "unique")
+
+college_data_summarized <- college_data_long %>%
+  group_by(region, race) %>%
+  summarize(average_college_enrollment = mean(value, na.rm = TRUE))
+
+ggplot(college_data_summarized, aes(x = race, y = average_college_enrollment, fill = race)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~region) +  # Facet by region
+  labs(title = "Average College Enrollment by Race and Region",
+       x = "Race",
+       y = "Average College Enrollment",
+       fill = "Race") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+
+
+```{r}
+pov_data <- cleaned_data %>%
+  select(aian, api, black, white, hisp, poverty_rate, state_usps, Region)
+
+pov_long_data <- tidyr::pivot_longer(cleaned_data,
+                          cols = c(aian, api, black, hisp, white),
+                          names_to = "race",
+                          values_to = "poverty_rate",
+                          names_repair = "unique")
+
+
+pov_data_summarized <- pov_long_data %>%
+  group_by(Region, race) %>%
+  summarize(average_pov_rate = mean(poverty_rate...71, na.rm = TRUE))
+
+ggplot(pov_data_summarized, aes(x = race, y = average_pov_rate, fill = race)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~Region) + # Creates a separate plot for each region
+  labs(title = "Average Poverty Rate by Race and Region",
+       x = "Race",
+       y = "Average Poverty Rate") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) # Improve label readability
+
+```
+
+```{r}
+library(tidyr)
+social_northeast_data <- cleaned_data %>%
+  filter(Region == "Northeast")
+
+social_northeast_long_data <- pivot_longer(social_northeast_data, 
+                          cols = c(poverty_rate, pub_assist_rate, home_ownership_rate, high_skill_employ,
+                                   med_house_income, employ_rate, housing_vac_rate),  
+                          names_to = "indicator", 
+                          values_to = "value")
+
+ggplot(social_northeast_long_data, aes(x = value)) +
+  geom_histogram(bins = 20, fill = "steelblue", color = "black") + # Adjust number of bins as needed
+  facet_wrap(~ indicator, nrow = 3, scales = "free") + # Rows by race, columns by indicator
+  labs(title = "Distribution of Key Social and Economic Indicators",
+       subtitle = "Exploring variations across the Northeast",
+       x = "Score or Percentage",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+```{r}
+edu_northeast_data <- cleaned_data %>%
+  filter(Region == "Northeast")
+
+edu_northeast_long_data <- pivot_longer(edu_northeast_data, 
+                          cols = c(AP_enrollment, adult_edu_attainment, college_enrollment, early_child_enrollment,
+                                   HS_gradrate, math_prof, reading_prof, school_pov, 
+                                   edu_centers, high_qual_early_edu_centers),  
+                          names_to = "indicator", 
+                          values_to = "value")
+
+ggplot(edu_northeast_long_data, aes(x = value)) +
+  geom_histogram(bins = 20, fill = "steelblue", color = "black") + # Adjust number of bins as needed
+  facet_wrap(~ indicator, nrow = 2, scales = "free") + # Rows by race, columns by indicator
+  labs(title = "Distribution of Key Education Indicators",
+       subtitle = "Exploring variations across the Northeast",
+       x = "Score or Percentage",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+```{r}
+health_northeast_data <- cleaned_data %>%
+  filter(Region == "Northeast")
+
+health_northeast_long_data <- pivot_longer(health_northeast_data, 
+                          cols = c(food_access, heat_exposure, green_space_access, health_insurance, 
+                                   ozone_conc, airborne_microparticles, walkability, 
+                                   waste_dump_sites, indus_pollutants),  
+                          names_to = "indicator", 
+                          values_to = "value")
+
+ggplot(health_northeast_long_data, aes(x = value)) +
+  geom_histogram(bins = 20, fill = "steelblue", color = "black") + 
+  facet_wrap(~ indicator, nrow = 3, scales = "free") + 
+  labs(title = "Distribution of Key Health and Environment Indicators",
+       subtitle = "Exploring variations across the Northeast",
+       x = "Score or Percentage",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+
+```{r}
+library(tidyr)
+social_south_data <- cleaned_data %>%
+  filter(Region == "South")
+
+social_south_long_data <- pivot_longer(social_south_data, 
+                          cols = c(poverty_rate, pub_assist_rate, home_ownership_rate, high_skill_employ,
+                                   med_house_income, employ_rate, housing_vac_rate),  
+                          names_to = "indicator", 
+                          values_to = "value")
+
+ggplot(social_south_long_data, aes(x = value)) +
+  geom_histogram(bins = 20, fill = "lightgreen", color = "black") + # Adjust number of bins as needed
+  facet_wrap(~ indicator, nrow = 3, scales = "free") + # Rows by race, columns by indicator
+  labs(title = "Distribution of Key Social and Economic Indicators",
+       subtitle = "Exploring variations across the South",
+       x = "Score or Percentage",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+
+```{r}
+edu_south_data <- cleaned_data %>%
+  filter(Region == "South")
+
+edu_south_long_data <- pivot_longer(edu_south_data, 
+                          cols = c(AP_enrollment, adult_edu_attainment, college_enrollment, early_child_enrollment,
+                                   HS_gradrate, math_prof, reading_prof, school_pov, 
+                                   edu_centers, high_qual_early_edu_centers),  
+                          names_to = "indicator", 
+                          values_to = "value")
+
+ggplot(edu_south_long_data, aes(x = value)) +
+  geom_histogram(bins = 20, fill = "lightgreen", color = "black") + # Adjust number of bins as needed
+  facet_wrap(~ indicator, nrow = 3, scales = "free") + # Rows by race, columns by indicator
+  labs(title = "Distribution of Key Education Indicators",
+       subtitle = "Exploring variations across the South",
+       x = "Score or Percentage",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+
+```{r}
+health_south_data <- cleaned_data %>%
+  filter(Region == "South")
+
+health_south_long_data <- pivot_longer(health_south_data, 
+                          cols = c(food_access, heat_exposure, green_space_access, health_insurance, 
+                                   ozone_conc, airborne_microparticles, walkability, 
+                                   waste_dump_sites, indus_pollutants),  
+                          names_to = "indicator", 
+                          values_to = "value")
+
+ggplot(health_south_long_data, aes(x = value)) +
+  geom_histogram(bins = 20, fill = "lightgreen", color = "black") + 
+  facet_wrap(~ indicator, nrow = 3, scales = "free") + 
+  labs(title = "Distribution of Key Health and Economic Indicators",
+       subtitle = "Exploring variations across the South",
+       x = "Score or Percentage",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+
+```{r}
+ggplot(cleaned_data, aes(x = z_ED_nat)) +
+  geom_histogram(bins = 18, fill = "blue", color = "black") +
+  theme_minimal() +
+  labs(x = "Natioanlly-Normed Education Domain Z-scores", y = "Frequency", title = "Histograms of Education Domain Z-scores")
+```
+
+```{r}
+race_by_state <- cleaned_data |>
+  select(state_usps, aian, api, black, hisp, other, nonwhite, white)
+
+long_data <- race_by_state %>%
+  pivot_longer(
+    cols = -state_usps,  # This keeps 'State' as a separate column and pivots all other columns
+    names_to = "Race",
+    values_to = "Population"
+  )
+
+# Print the transformed data
+population_by_state_and_race <- long_data %>%
+  group_by(state_usps, Race) %>%
+  summarise(Total_Population = sum(Population), .groups = 'drop')
+```
+
+```{r}
+california_data <-  population_by_state_and_race |>
+  filter(state_usps == "CA")
+
+ggplot(california_data, aes(x = Race, y = Total_Population, fill = Race)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Population Distribution by Race in California",
+       x = "Race",
+       y = "Population") +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Pastel1") 
+
+ny_data <-  population_by_state_and_race |>
+  filter(state_usps == "NY")
+
+ggplot(ny_data, aes(x = Race, y = Total_Population, fill = Race)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Population Distribution by Race in New York",
+       x = "Race",
+       y = "Population") +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Pastel1") 
+```
+
+```{r}
+p <- ggplot(population_by_state_and_race, aes(x = Race, y = Total_Population, fill = Race)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Population Distribution by Race in California",
+       x = "Race",
+       y = "Population") +
+  theme(
+    plot.background = element_rect(fill = "white", color = NA), # No border
+    panel.background = element_rect(fill = "white", color = NA)
+  ) +
+  scale_fill_brewer(palette = "Pastel1") +
+  facet_wrap(~state_usps, scales = "free_y")
+
+#ggsave("high_res_plot.png", plot = p, width = 14, height = 12, dpi = 400)
+p
+```
+
+```{r}
+mod1 <- lm(z_COI_nat ~ poverty_rate, cleaned_data)
+summary(mod1)
+```
+
+```{r}
+ggplot(cleaned_data, aes(x = poverty_rate, y = z_COI_nat)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE, color = "blue") +
+  labs(title = "Poverty Rate vs COI Z-Scores", x = "Poverty Rate", y = "COI Nationaly-Normed Z-Score") +
+  theme_minimal()
+```
+
+
+```{r}
+plot(mod1)
+hist(resid(mod1))
+```
+```{r}
+broom::glance(mod1) # statistics about the full model
+broom::tidy(mod1) # coefficients table from summary
+broom::augment(mod1) # information about each observation
+```
+```{r}
+set.seed(501)
+cleaned_data_split <- initial_split(cleaned_data, prop = 0.80, strata = z_COI_nat)
+cleaned_data_split
+```
+
+
+```{r}
+cleaned_data_train <- training(cleaned_data_split)
+cleaned_data_test  <-  testing(cleaned_data_split)
+
+dim(cleaned_data_train)
+```
+
+```{r}
+lm_model <- 
+  linear_reg() %>% 
+  set_engine("lm")
+
+lm_form_fit <- 
+  lm_model %>% 
+  # Recall that Sale_Price has been pre-logged
+  fit(z_COI_nat ~ poverty_rate , data = cleaned_data_train)
+
+lm_xy_fit <- 
+  lm_model %>% 
+  fit_xy(
+    x = cleaned_data_train %>% select(poverty_rate),
+    y = cleaned_data_train %>% pull(z_COI_nat)
+  )
+
+print(lm_form_fit)
+print(lm_xy_fit)
+```
+```{r}
+predictions_test <- predict(lm_form_fit, new_data = cleaned_data_test)
+results_test <- cleaned_data_test %>%
+  select(z_COI_nat) %>%
+  bind_cols(predictions = predictions_test$.pred)  # make sure to adjust the predictions column name based on your output
+
+# Calculate metrics such as RMSE, R-Squared, etc.
+rmse_test <- rmse(results_test, truth = z_COI_nat, estimate = predictions)
+rsq_test <- rsq(results_test, truth = z_COI_nat, estimate = predictions)
+
+print(paste("RMSE on Test Set:", rmse_test$.estimate))
+print(paste("R^2 on Test Set:", rsq_test$.estimate))
+
+```
+
+```{r}
+ggplot(results_test, aes(x = z_COI_nat, y = predictions)) +
+  geom_point() +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
+  labs(title = "Actual vs. Predicted", x = "Actual Values", y = "Predicted Values")
+```
+
+```{r}
+cv_folds <- vfold_cv(cleaned_data_train, v = 5, strata = z_COI_nat)
+
+# Fit and evaluate the model within cross-validation
+cv_results <- lm_model %>%
+  fit_resamples(
+    z_COI_nat ~ poverty_rate,
+    resamples = cv_folds,
+    metrics = metric_set(rmse, rsq)
+  )
+
+# Summarize the results
+collect_metrics(cv_results)
+```
+
+```{r}
+mod2 <- lm(z_COI_nat ~ poverty_rate + housing_vac_rate + high_skill_employ + med_house_income + single_household, cleaned_data)
+summary(mod2)
+```
+
+```{r}
+cleaned_data <- cleaned_data |>
+  rename(
+    high_qual_edu_centers = ED_PRXHQECE
+  )
+```
+
+
+```{r}
+region_long_data <- cleaned_data %>%
+  pivot_longer(
+    cols = c(white, black, hisp, aian, api),
+    names_to = "Race",
+    values_to = "Population"
+  )
+# Print the transformed data
+population_by_region_and_race <- region_long_data %>%
+  group_by(Region, Race) %>%
+  summarise(Total_Population = sum(Population), .groups = 'drop')
+```
+
+```{r}
+p <- ggplot(population_by_region_and_race, aes(x = Race, y = Total_Population, fill = Race)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Population Distribution by Race by Region",
+       x = "Race",
+       y = "Population") +
+  theme(
+    plot.background = element_rect(fill = "white", color = NA), # No border
+    panel.background = element_rect(fill = "white", color = NA)
+  ) +
+  facet_wrap(~Region, scales = "free_y")
+
+#ggsave("high_res_plot.png", plot = p, width = 14, height = 12, dpi = 400)
+p
+```
+
+```{r}
+#Distribution of our outcome variable
+print(summary(cleaned_data$z_COI_nat))
+z_COI_hist <- ggplot(cleaned_data, aes(x = z_COI_nat))+ 
+  geom_histogram(bins = 50, col= "white")
+z_COI_hist
+```
+```{r}
+cleaned_data$total_population <- rowSums(cleaned_data[, c("aian", "api", "black", "hisp", "other", "nonwhite", "white")])
+```
+
+```{r}
+cleaned_data <- cleaned_data %>%
+  mutate(
+    prop_aian = aian / total_population,
+    prop_api = api / total_population,
+    prop_black = black / total_population,
+    prop_hisp = hisp / total_population,
+    prop_other2 = other / total_population,
+    prop_nonwhite = nonwhite / total_population,
+    prop_white = white / total_population
+  )
+```
+
+```{r}
+cleaned_data$Region <- as.factor(cleaned_data$Region)
+```
+
+```{r}
+SE_lm_model <- lm(z_COI_nat ~ prop_aian + prop_api + prop_black + prop_hisp + prop_other2 + prop_nonwhite + prop_white + poverty_rate + pub_assist_rate + home_ownership_rate + high_skill_employ + med_house_income + employ_rate + Region, data = cleaned_data)
+```
+
+```{r}
+summary(SE_lm_model)
+```
+
+```{r}
+plot(SE_lm_model)
+hist(resid(SE_lm_model))
+```
+
+```{r}
+relevant_data <- cleaned_data %>%
+  select(z_COI_nat, poverty_rate, pub_assist_rate, home_ownership_rate, high_skill_employ, med_house_income, employ_rate, prop_aian, prop_api, prop_black, prop_hisp, prop_other2, prop_white, Region)
+set.seed(501)
+
+
+# Split the data into training (e.g., 80%) and testing (e.g., 20%) sets
+split <- initial_split(relevant_data, prop = 0.8, strata = z_COI_nat)
+
+# Extract the data for training and testing
+SE_training_data <- training(split)
+SE_testing_data <- testing(split)
+```
+
+```{r}
+lm_model <- lm(z_COI_nat ~ prop_aian + prop_api + prop_black + prop_hisp + prop_other2 + prop_white + poverty_rate + pub_assist_rate + home_ownership_rate + high_skill_employ + med_house_income + employ_rate + factor(Region), data = SE_training_data)
+
+# Check the summary of the model
+summary(lm_model)
+
+```
+
+```{r}
+SE_predictions <- predict(lm_model, newdata = SE_testing_data)
+
+# Add predictions to the testing set (optional, for comparison purposes)
+SE_testing_data$SE_predictions <- SE_predictions
+```
+
+```{r}
+SE_rmse_test <- sqrt(mean((testing_data$SE_predictions - testing_data$z_COI_nat)^2))
+
+residuals <- SE_testing_data$z_COI_nat - SE_predictions
+
+# Calculate the Mean Squared Error (MSE)
+SE_mse <- mean(residuals^2)
+print(paste("Testing MSE:", SE_mse))
+print(paste("Testing RMSE:", SE_rmse_test))
+```
+```{r}
+plot(SE_lm_model, which = 3, col = "lightpink", pch = 19)
+  # Add a horizontal line at y = 0)
+hist(resid(SE_lm_model))
+```
+```{r}
+ggplot(SE_testing_data, aes(x = z_COI_nat, y = SE_predictions)) +
+  geom_point() +  # Add points to the plot
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +  # Add a 45-degree line
+  labs(title = "Actual vs Predicted Values",
+       x = "Actual z_COI_nat",
+       y = "Predicted z_COI_nat") +
+  theme_minimal() 
+```
+
+```{r}
+#ED Linear model
+cleaned_data$Region <- as.factor(cleaned_data$Region)
+```
+
+```{r}
+ED_lm_model <- lm(z_COI_nat ~ prop_aian + prop_api + prop_black + prop_hisp + prop_other2 + prop_nonwhite + prop_white + AP_enrollment + adult_edu_attainment + college_enrollment + early_child_enrollment + HS_gradrate + math_prof + reading_prof+ school_pov + teacher_exp + edu_centers + high_qual_early_edu_centers + Region, data = cleaned_data)
+```
+
+```{r}
+summary(ED_lm_model)
+```
+
+```{r}
+par(mfrow = c(2, 2))  # Arrange plots in a 2x2 grid
+
+# Residuals vs. Fitted Values Plot
+plot(ED_lm_model, which = 1, col = "lightpink", pch = 19, main = "Residuals vs Fitted")
+abline(h = 0, col = "black")  # Add a horizontal line at y = 0
+
+# Normal Q-Q Plot
+qqnorm(residuals(ED_lm_model), col = "green", pch = 19)
+qqline(residuals(ED_lm_model), col = "red")
+
+# Scale-Location (Square Root of Residuals) vs. Fitted Values Plot
+plot(ED_lm_model, which = 3, col = "purple", pch = 19, main = "Scale-Location Plot")
+
+# Cook's Distance Plot
+plot(cooks.distance(ED_lm_model), col = "orange", pch = 19, main = "Cook's Distance Plot", xlab = "Observation Number", ylab = "Cook's Distance")
+
+par(mfrow = c(1, 1))  # Reset to single plot layout
+hist(resid(ED_lm_model))
+
+```
+```{r}
+par(mfrow = c(2, 2))  # Arrange plots in a 2x2 grid
+
+# Residuals vs. Fitted Values Plot
+plot(SE_lm_model, which = 1, col = "lightpink", pch = 19, main = "Residuals vs Fitted")
+abline(h = 0, col = "black")  # Add a horizontal line at y = 0
+
+# Normal Q-Q Plot
+qqnorm(residuals(SE_lm_model), col = "green", pch = 19)
+qqline(residuals(SE_lm_model), col = "red")
+
+# Scale-Location (Square Root of Residuals) vs. Fitted Values Plot
+plot(SE_lm_model, which = 3, col = "purple", pch = 19, main = "Scale-Location Plot")
+
+# Cook's Distance Plot
+plot(cooks.distance(SE_lm_model), col = "orange", pch = 19, main = "Cook's Distance Plot", xlab = "Observation Number", ylab = "Cook's Distance")
+
+par(mfrow = c(1, 1))  # Reset to single plot layout
+hist(resid(SE_lm_model))
+
+```
+```{r}
+par(mfrow = c(2, 2))  # Arrange plots in a 2x2 grid
+
+# Residuals vs. Fitted Values Plot
+plot(HE_lm_model, which = 1, col = "lightpink", pch = 19, main = "Residuals vs Fitted")
+abline(h = 0, col = "black")  # Add a horizontal line at y = 0
+
+# Normal Q-Q Plot
+qqnorm(residuals(HE_lm_model), col = "green", pch = 19)
+qqline(residuals(HE_lm_model), col = "red")
+
+# Scale-Location (Square Root of Residuals) vs. Fitted Values Plot
+plot(HE_lm_model, which = 3, col = "purple", pch = 19, main = "Scale-Location Plot")
+
+# Cook's Distance Plot
+plot(cooks.distance(HE_lm_model), col = "orange", pch = 19, main = "Cook's Distance Plot", xlab = "Observation Number", ylab = "Cook's Distance")
+
+par(mfrow = c(1, 1))  # Reset to single plot layout
+hist(resid(HE_lm_model))
+
+```
+
+
+```{r}
+ED_relevant_data <- cleaned_data %>%
+  select(z_COI_nat, AP_enrollment, adult_edu_attainment, college_enrollment, early_child_enrollment, HS_gradrate, math_prof, reading_prof, school_pov, teacher_exp, edu_centers, high_qual_early_edu_centers, prop_aian, prop_api, prop_black, prop_hisp, prop_other2, prop_nonwhite, prop_white, Region)
+set.seed(501)
+
+
+# Split the data into training (e.g., 80%) and testing (e.g., 20%) sets
+ED_split <- initial_split(ED_relevant_data, prop = 0.8, strata = z_COI_nat)
+
+# Extract the data for training and testing
+ED_training_data <- training(ED_split)
+ED_testing_data <- testing(ED_split)
+```
+
+```{r}
+ED_lm_model <- lm(z_COI_nat ~ prop_aian + prop_api + prop_black + prop_hisp + prop_other2 + prop_nonwhite + prop_white + AP_enrollment + adult_edu_attainment + college_enrollment + early_child_enrollment + HS_gradrate + math_prof + reading_prof+ school_pov + teacher_exp + edu_centers + high_qual_edu_centers + factor(Region), data = ED_training_data)
+
+# Check the summary of the model
+summary(ED_lm_model)
+
+```
+
+```{r}
+ED_predictions <- predict(ED_lm_model, newdata = ED_testing_data)
+
+# Add predictions to the testing set (optional, for comparison purposes)
+ED_testing_data$ED_predictions <- ED_predictions
+```
+
+```{r}
+ED_rmse_test <- sqrt(mean((ED_testing_data$ED_predictions - ED_testing_data$z_COI_nat)^2))
+
+ED_residuals <- ED_testing_data$z_COI_nat - ED_predictions
+
+# Calculate the Mean Squared Error (MSE)
+ED_mse <- mean(ED_residuals^2)
+print(paste("Testing MSE:", ED_mse))
+print(paste("Testing RMSE:", ED_rmse_test))
+```
+```{r}
+ggplot(ED_testing_data, aes(x = z_COI_nat, y = ED_predictions)) +
+  geom_point() +  # Add points to the plot
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +  # Add a 45-degree line
+  labs(title = "Actual vs Predicted Values",
+       x = "Actual z_COI_nat",
+       y = "Predicted z_COI_nat") +
+  theme_minimal() 
+```
+
+```{r}
+#Logistic Regression
+cleaned_data$c5_COI_nat <- as.factor(cleaned_data$c5_COI_nat)
+```
+
+```{r}
+library(nnet)
+if (!require(nnet)) install.packages("nnet", dependencies = TRUE)
+```
+
+```{r}
+#install.packages("caret", dependencies = TRUE)
+library(caret)
+set.seed(123)
+index <- createDataPartition(cleaned_data$c5_COI_nat, p = 0.80, list = FALSE)
+log_train_data <- cleaned_data[index, ]
+test_data <- cleaned_data[-index, ]
+```
+
+```{r}
+lr_model <- multinom(c5_COI_nat ~ poverty_rate, data = ED_training_data)
+```
+
+```{r}
+summary(lr_model)
+```
+
+```{r}
+probabilities <- predict(model, test_data, type = "probs")
+predicted_classes <- predict(model, test_data)
+```
+
+```{r}
+table(predicted = predicted_classes, actual = test_data$c5_COI_nat)
+```
+
+```{r}
+conf_mat <- matrix(c(1131, 180, 731, 484, 24,
+                     106, 1053, 459, 12, 505,
+                     443, 641, 961, 92, 81,
+                     837, 28, 210, 1737, 3,
+                     28, 417, 85, 8, 1835), 
+                   byrow = TRUE, nrow = 5)
+dimnames(conf_mat) <- list(predicted = c("High", "Low", "Moderate", "Very High", "Very Low"),
+                           actual = c("High", "Low", "Moderate", "Very High", "Very Low"))
+
+# Calculate accuracy
+accuracy <- sum(diag(conf_mat)) / sum(conf_mat)
+accuracy
+```
+
+```{r}
+HE_relevant_data <- cleaned_data %>%
+  select(z_COI_nat, food_access, green_space_access, heat_exposure, health_insurance, ozone_conc, airborne_microparticles, housing_vac_rate, walkability, waste_dump_sites, indus_pollutants, prop_aian, prop_api, prop_black, prop_hisp, prop_other2, prop_nonwhite, prop_white, Region)
+set.seed(501)
+
+
+# Split the data into training (e.g., 80%) and testing (e.g., 20%) sets
+HE_split <- initial_split(HE_relevant_data, prop = 0.8, strata = z_COI_nat)
+
+# Extract the data for training and testing
+HE_training_data <- training(HE_split)
+HE_testing_data <- testing(HE_split)
+```
+
+```{r}
+HE_lm_model <- lm(z_COI_nat ~ prop_aian + prop_api + prop_black + prop_hisp + prop_other2 + prop_nonwhite + prop_white + food_access + green_space_access + heat_exposure + health_insurance + ozone_conc + airborne_microparticles + housing_vac_rate + walkability + waste_dump_sites + indus_pollutants + factor(Region), data = HE_training_data)
+
+# Check the summary of the model
+summary(HE_lm_model)
+```
+
+```{r}
+plot(HE_lm_model)
+hist(resid(HE_lm_model))
+hist_res <- hist(resid(ED_lm_model), breaks = 20, col = "lightpink", main = "Histogram of Residuals", xlab = "Residuals", ylab = "Frequency")
+
+```
